@@ -30,7 +30,7 @@ See the diagram below.
 
 - Format
 
-#### In
+##### In
 ```xml
 <BinaryExpressionAst Operator="Format" StaticType="System.Object">
     <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">{0}{1}</StringConstantExpressionAst>
@@ -42,16 +42,18 @@ See the diagram below.
   </ArrayLiteralAst>
 </BinaryExpressionAst>
 ```
-#### Out
+##### Out
 ```xml
 <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">cAcA</StringConstantExpressionAst>
 ```
 
 ### Examples of script
 
+:information_source: More samples are available in data.zip 
+
 - a CTF chall
 
-#### In
+##### In
 
 ```powershell
 $mRSp73  =  [ChaR[] ]" ))43]raHc[]gNIRtS[,)38]raHc[+98]raHc[+611]raHc[((eCAlper.)421]raHc[]gNIRtS[,'5IP'(eCAlper.)'$',)09]raHc[+99]raHc[+701]raHc[((eCAlper.)93]raHc[]gNIRtS[,'vzW'(eCAlper.)'
@@ -84,7 +86,7 @@ SYtgalfSYt eulaV- halB em'+'aN- ytreporPetoN e'+'pyTrebmeM- rebmeM-ddA 5IP tcej'
 tc'+'ejbO'+'SP tcejbO-weN = tc'+'ejboZck'( ()''nioJ-'x'+]3,1[)eCNERefErpESoBreV$]GniRTS[( (. " ;[aRRAy]::REVerse($MrSp73);. ( 'IeX') ( -JoiN$MrSp73)
 ```
 
-#### Out
+##### Out
 
 ```powershell
 $object = New-Object PSObject;
