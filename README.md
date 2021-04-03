@@ -16,7 +16,9 @@ AST manipulation and optimization is based on a set of rules (ex: concat constan
 From the deobfuscated AST, a ps1 script is rebuilt using Python.
 See the diagram below.
 
-*It's a PoC ... only a subset of Powershell is supported*
+:information_source: It's a PoC ... only a subset of Powershell is supported
+
+:warning: data.zip is password protected with common password for archive that contains malware samples ...
 
 ## How
 
