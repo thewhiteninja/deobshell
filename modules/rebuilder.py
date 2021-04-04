@@ -3,27 +3,8 @@ from types import SimpleNamespace
 
 from modules.escaped_chars import escape_string
 from modules.logger import log_warn, log_err, log_info
+from modules.operators import OPS
 from modules.utils import parent_map
-
-OPS = {
-    "Minus"     : " - ",
-    "Plus"      : " + ",
-    "Format"    : " -f ",
-    "Equals"    : " = ",
-    "PlusEquals": " += ",
-    "Is"        : " -is ",
-    "As"        : " -as ",
-    "Ieq"       : " -eq ",
-    "Ige"       : " -ge ",
-    "Ile"       : " -le ",
-    "Ine"       : " -ne ",
-    "Bxor"      : " -bxor ",
-    "Ireplace"  : " -replace ",
-    "Join"      : " -join ",
-    "Imatch"    : " -match ",
-    "And"       : " -and ",
-    "Or"        : " -or ",
-}
 
 
 class Rebuilder:
@@ -64,7 +45,7 @@ class Rebuilder:
         else:
             log_err(f"Operator {op} not supported")
 
-    def _rebuild_internal(self, node):
+    def _rebuild_internal(self, node, **kwargs):
         self.stats.nodes += 1
 
         if node.tag in ["NamedBlockAst"]:
@@ -95,7 +76,7 @@ class Rebuilder:
 
             have_args = False
             for subnode in subnodes:
-                if len(list(subnode))>0:
+                if len(list(subnode)) > 0:
                     have_args = True
                     break
 
@@ -132,7 +113,7 @@ class Rebuilder:
             if node in self._parent_map:
                 self.write("\n")
                 self.indent()
-                self.write("{\n")
+                self.write("(\n")
                 self._level += 1
 
             for subnode in subnodes:
@@ -141,7 +122,7 @@ class Rebuilder:
             if node in self._parent_map:
                 self._level -= 1
                 self.indent()
-                self.write("}\n")
+                self.write(")\n")
 
         elif node.tag in ["PipelineElements"]:
             subnodes = list(node)
@@ -167,7 +148,7 @@ class Rebuilder:
             for i, subnode in enumerate(subnodes):
                 self.indent()
                 self._rebuild_internal(subnode)
-                if subnode.tag not in ["IfStatementAst", "TryStatementAst", "ForEachStatementAst", "PipelineAst"]:
+                if subnode.tag not in ["IfStatementAst", "ForStatementAst", "TryStatementAst", "ForEachStatementAst", "PipelineAst"]:
                     self.write(";\n")
                 elif subnode.tag in ["PipelineAst"]:
                     if self.lastWrite(subnode).tag not in ["ScriptBlockExpressionAst"]:
@@ -201,11 +182,28 @@ class Rebuilder:
             for subnode in node:
                 self._rebuild_internal(subnode)
 
+        elif node.tag in ["ForStatementAst"]:
+            self.write("\n")
+
+            subnodes = list(node)
+
+            self.indent()
+            self.write("for(")
+            self._rebuild_internal(subnodes[0])
+            self.write(";")
+            self._rebuild_internal(subnodes[1])
+            self.write(";")
+            self._rebuild_internal(subnodes[3])
+            self.write(")\n")
+
+            self._rebuild_internal(subnodes[2])
+
         elif node.tag in ["ForEachStatementAst"]:
             self.write("\n")
 
             subnodes = list(node)
 
+            self.indent()
             self.write("foreach(")
             self._rebuild_internal(subnodes[0])
             self.write(" in ")
@@ -215,7 +213,11 @@ class Rebuilder:
             self._rebuild_internal(subnodes[1])
 
         elif node.tag in ["ReturnStatementAst"]:
-            self.write("return")
+            self.write("return ")
+            for subnode in node:
+                self._rebuild_internal(subnode)
+
+        elif node.tag in ["PositionalArguments"]:
             for subnode in node:
                 self._rebuild_internal(subnode)
 
@@ -225,7 +227,10 @@ class Rebuilder:
                 self._rebuild_internal(subnodes[0])
                 subnodes.pop(0)
 
-            if len(subnodes) == 2:
+            if len(subnodes) == 1:
+                self.indent()
+                self._rebuild_internal(subnodes[0])
+            elif len(subnodes) == 2:
                 self.indent()
                 self.write(f"[{node.attrib['StaticType']}]")
                 self._rebuild_internal(subnodes[0])
@@ -235,13 +240,13 @@ class Rebuilder:
         elif node.tag in ["Parameters"]:
             for i, subnode in enumerate(node):
                 self._rebuild_internal(subnode)
-                if i < len(list(subnode))-1:
+                if i < len(list(node)) - 1:
                     self.write(", ")
-                self.write("\n")
+                if "inline" not in kwargs:
+                    self.write("\n")
 
         elif node.tag in ["ScriptBlockExpressionAst", "ScriptBlockAst"]:
             if node in self._parent_map:
-                self.write("\n")
                 self.indent()
                 self.write("{\n")
                 self._level += 1
@@ -324,10 +329,16 @@ class Rebuilder:
             self._rebuild_internal(subnodes[1])
 
         elif node.tag in ["UnaryExpressionAst"]:
-            self.rebuild_operator(node.attrib["TokenKind"])
+            kind = node.attrib["TokenKind"]
+
+            if kind not in ["PostfixPlusPlus"]:
+                self.rebuild_operator(kind)
 
             for subnode in node:
                 self._rebuild_internal(subnode)
+
+            if kind in ["PostfixPlusPlus"]:
+                self.rebuild_operator(kind)
 
         elif node.tag in ["ExitStatementAst"]:
             self.write("exit")
@@ -335,13 +346,23 @@ class Rebuilder:
         elif node.tag in ["ContinueStatementAst"]:
             self.write("continue")
 
+        elif node.tag in ["HashtableAst"]:
+            self.write("@{ ")
+
+            for i, subnode in enumerate(node):
+                self._rebuild_internal(subnode)
+                if i < len(list(node))-1:
+                    self.write(" = ")
+
+            self.write(" }")
+
         elif node.tag in ["FunctionDefinitionAst"]:
             subnodes = list(node)
 
             if len(subnodes) == 2:
                 self.write(f"function {node.attrib['Name']}")
                 self.write("(")
-                self._rebuild_internal(subnodes[0])
+                self._rebuild_internal(subnodes[0], inline=True)
                 self.write(")")
                 self._rebuild_internal(subnodes[1])
             elif len(subnodes) == 1:
@@ -367,6 +388,8 @@ class Rebuilder:
                 self.write("'" + ("" if node.text is None else escape_string(node.text, mode="SingleQuoted")) + "'")
             elif node.attrib["StringConstantType"] == "DoubleQuoted":
                 self.write('"' + ("" if node.text is None else escape_string(node.text, mode="DoubleQuoted")) + '"')
+            elif node.attrib["StringConstantType"] == "SingleQuotedHereString":
+                self.write("'" + ("" if node.text is None else escape_string(node.text, mode="SingleQuotedHereString")) + "'")
 
         elif node.tag in ["IndexExpressionAst"]:
             subnodes = list(node)

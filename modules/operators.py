@@ -1,0 +1,22 @@
+# coding=utf-8
+OPS = {
+    "Minus"     : " - ",
+    "Plus"      : " + ",
+    "Format"    : " -f ",
+    "Equals"    : " = ",
+    "PlusEquals": " += ",
+    "PostfixPlusPlus": " ++ ",
+    "Is"        : " -is ",
+    "As"        : " -as ",
+    "Ieq"       : " -eq ",
+    "Ige"       : " -ge ",
+    "Ile"       : " -le ",
+    "Ine"       : " -ne ",
+    "Bxor"      : " -bxor ",
+    "Ireplace"  : " -replace ",
+    "Join"      : " -join ",
+    "Imatch"    : " -match ",
+    "And"       : " -and ",
+    "Or"        : " -or ",
+    "Ilt"       : " -lt ",
+}
