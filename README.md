@@ -26,19 +26,29 @@ See the diagram below.
   <img alt="diagram" src="assets/diagram.png" width="600">
 </p>
 
-### Example of rules
+### Examples of rules
+- remove empty nodes
+- remove unused variables
+- remove use of uninitialised variables
+- simplify expression
+- join, plus, format, replace operator
+- split, reverse, invoke-expression
+- type convertion to type, string, char, array
+- replace constant variable with their value
+- fix special words case
+- ...
 
-- Format
+Example of BinaryExpressionAst node for format operator
 
 ##### In
 ```xml
 <BinaryExpressionAst Operator="Format" StaticType="System.Object">
-    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">{0}{1}</StringConstantExpressionAst>
-        <ArrayLiteralAst StaticType="System.Object[]">
-          <Elements>
-            <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">c</StringConstantExpressionAst>
-            <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">AcA</StringConstantExpressionAst>
-          </Elements>
+  <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">{0}{1}</StringConstantExpressionAst>
+  <ArrayLiteralAst StaticType="System.Object[]">
+    <Elements>
+      <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">c</StringConstantExpressionAst>
+      <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">AcA</StringConstantExpressionAst>
+    </Elements>
   </ArrayLiteralAst>
 </BinaryExpressionAst>
 ```
