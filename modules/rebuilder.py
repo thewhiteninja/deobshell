@@ -11,6 +11,8 @@ OPS = {
     "Equals"    : " = ",
     "PlusEquals": " += ",
     "Ige"       : " -ge ",
+    "Ile"       : " -le ",
+    "Ine"       : " -ne ",
     "Bxor"      : " -bxor ",
     "Ireplace"  : " -replace ",
     "Join"      : " -join ",
@@ -225,6 +227,9 @@ class Rebuilder:
             for subnode in node:
                 self._rebuild_internal(subnode)
 
+        elif node.tag in ["ExitStatementAst"]:
+            self.write("exit")
+
         elif node.tag in ["BinaryExpressionAst"]:
             subnodes = list(node)
             self._rebuild_internal(subnodes[0])
@@ -237,7 +242,7 @@ class Rebuilder:
             if node.attrib["StaticType"] == "int":
                 self.write(node.text)
 
-        elif node.tag in ["StringConstantExpressionAst"]:
+        elif node.tag in ["StringConstantExpressionAst", "ExpandableStringExpressionAst"]:
             if node.attrib["StringConstantType"] == "BareWord":
                 self.write("" if node.text is None else escape_string(node.text, mode="BareWord"))
             elif node.attrib["StringConstantType"] == "SingleQuoted":

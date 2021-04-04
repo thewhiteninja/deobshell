@@ -16,10 +16,12 @@ def usage():
     print("Usage: " + os.path.basename(sys.argv[0]) + ' [options]')
     print()
     print("Command:")
-    print("      deob            : Optimize PowerShell AST")
+    print("      deob            : Deobfuscate PowerShell script")
+    print("      format          : Format PowerShell script")
     print()
     print("Options:")
     print("      -h, --help      : Show help")
+    print("      -i, --in        : Input .ps1 file")
     print()
     sys.exit(0)
 
@@ -30,7 +32,7 @@ def parse_args():
     while i < len(sys.argv):
         if sys.argv[i] in ["-h", "--help"]:
             usage()
-        elif sys.argv[i] in ["-a", "--ast"]:
+        elif sys.argv[i] in ["-i", "--in"]:
             OPTIONS["input"] = sys.argv[i + 1]
             i += 1
         else:
@@ -55,9 +57,23 @@ def deob(ps1_file):
             r.rebuild(ast.getroot())
 
 
+def format(ps1_file):
+    p = pathlib.Path(ps1_file)
+
+    if create_ast_file(p):
+
+        if ast := read_ast_file(p.with_suffix(".xml")):
+
+            r = Rebuilder(p.with_suffix(".formatted.ps1"))
+            r.rebuild(ast.getroot())
+
+
 def main():
-    if OPTIONS.setdefault("command", None) == "deob":
+    cmd = OPTIONS.setdefault("command", None)
+    if cmd == "deob":
         deob(OPTIONS['input'])
+    elif cmd == "format":
+        format(OPTIONS['input'])
     else:
         usage()
 
