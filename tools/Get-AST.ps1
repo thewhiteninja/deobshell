@@ -95,7 +95,7 @@ function AddChildNode($xmlWriter, $child)
 
         foreach ($property in $child.PSObject.Properties)
         {
-            if ($property.Name -in 'StaticType', 'StringConstantType', 'TypeName', 'VariablePath', 'Operator', 'Variable', 'Condition', 'Static', 'TokenKind')
+            if ($property.Name -in 'Name', 'ArgumentName', 'ParameterName', 'StaticType', 'StringConstantType', 'TypeName', 'VariablePath', 'Operator', 'Variable', 'Condition', 'Static', 'TokenKind')
             {
                 $xmlWriter.WriteAttributeString($property.Name, $property.Value);
             }
