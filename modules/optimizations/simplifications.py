@@ -124,6 +124,8 @@ def opt_constant_string_type(ast):
     for node in ast.iter():
         if node.tag in ["InvokeMemberExpressionAst", "MemberExpressionAst"]:
             for cst_string_node in node.findall("StringConstantExpressionAst"):
+                if cst_string_node.text is None:
+                    continue
                 member = cst_string_node.text.lower()
                 if member in BAREWORDS:
                     if cst_string_node.attrib["StringConstantType"] != "BareWord":
