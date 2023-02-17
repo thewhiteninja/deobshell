@@ -46,21 +46,31 @@ def opt_type_constraint_from_convert(ast):
 
 
 def opt_type_constraint_case(ast):
-    for node in ast.iter():
-        if node.tag in ["TypeConstraintAst", "TypeExpressionAst"]:
-            typename = node.attrib["TypeName"]
+    def get_new_value(t):
+        new_val = t
+        new_val = ".".join(
+            [BAREWORDS[t.lower()] if t.lower() in BAREWORDS else t for t in new_val.split(".")])
+        new_val = "-".join(
+            [BAREWORDS[t.lower()] if t.lower() in BAREWORDS else t for t in new_val.split("-")])
+        return new_val
 
-            new_value = typename
-            new_value = ".".join(
-                [BAREWORDS[t.lower()] if t.lower() in BAREWORDS else t for t in new_value.split(".")])
-            new_value = "-".join(
-                [BAREWORDS[t.lower()] if t.lower() in BAREWORDS else t for t in new_value.split("-")])
+    for node in ast.iter():
+        if node.tag == "ConvertExpressionAst":
+            typename = node.attrib["StaticType"]
+            new_value = get_new_value(typename)
+
+            if typename != new_value:
+                node.attrib["StaticType"] = new_value
+                log_debug("Fix typename case from '%s' to '%s'" % (typename, new_value))
+                return True
+
+        elif node.tag in ["TypeConstraintAst", "TypeExpressionAst"]:
+            typename = node.attrib["TypeName"]
+            new_value = get_new_value(typename)
 
             if typename != new_value:
                 node.attrib["TypeName"] = new_value
-
                 log_debug("Fix typename case from '%s' to '%s'" % (typename, new_value))
-
                 return True
 
     return False
