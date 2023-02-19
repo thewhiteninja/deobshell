@@ -81,7 +81,7 @@ def opt_binary_expression_replace(ast):
             new_element = Element("StringConstantExpressionAst",
                                   {
                                       "StringConstantType": "SingleQuoted",
-                                      "StaticType"        : "string",
+                                      "StaticType": "string",
                                   })
             new_element.text = formatted
 
@@ -110,7 +110,7 @@ def opt_binary_expression_format(ast):
             new_element = Element("StringConstantExpressionAst",
                                   {
                                       "StringConstantType": "SingleQuoted",
-                                      "StaticType"        : "string",
+                                      "StaticType": "string",
                                   })
             new_element.text = formatted
 
@@ -151,7 +151,7 @@ def opt_binary_expression_join(ast):
             new_element = Element("StringConstantExpressionAst",
                                   {
                                       "StringConstantType": "SingleQuoted",
-                                      "StaticType"        : "string",
+                                      "StaticType": "string",
                                   })
             new_element.text = joined
 

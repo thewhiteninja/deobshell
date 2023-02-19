@@ -21,7 +21,7 @@ def opt_convert_type_to_type(ast):
                     new_element = Element("StringConstantExpressionAst",
                                           {
                                               "StringConstantType": "BareWord",
-                                              "StaticType"        : "string",
+                                              "StaticType": "string",
                                           })
 
                     new_element.text = "[" + type_value + "]"
@@ -47,13 +47,14 @@ def opt_convert_type_to_string(ast):
 
                     if var_value.lower() in SPECIAL_VARS_VALUES and SPECIAL_VARS_VALUES[var_value.lower()] is not None:
                         log_debug(
-                            "Use special variable value '%s' for $%s" % (SPECIAL_VARS_VALUES[var_value.lower()], var_value))
+                            "Use special variable value '%s' for $%s" % (
+                                SPECIAL_VARS_VALUES[var_value.lower()], var_value))
                         var_value = SPECIAL_VARS_VALUES[var_value.lower()]
 
                     new_element = Element("StringConstantExpressionAst",
                                           {
                                               "StringConstantType": "DoubleQuoted",
-                                              "StaticType"        : "string",
+                                              "StaticType": "string",
                                           })
 
                     new_element.text = var_value
@@ -66,7 +67,6 @@ def opt_convert_type_to_string(ast):
 
                 cst_string_node = node.find("StringConstantExpressionAst")
                 if cst_string_node is not None:
-
                     log_debug("Remove unused cast to string for '%s'" % (cst_string_node.text))
 
                     replace_node(ast, node, cst_string_node)
@@ -84,7 +84,6 @@ def opt_convert_type_to_array(ast):
             if type_name == "array":
                 cst_string_node = node.find("StringConstantExpressionAst")
                 if cst_string_node is not None:
-
                     log_debug("Replace array of one string to string '%s'" % cst_string_node.text)
 
                     replace_node(ast, node, cst_string_node)
@@ -117,7 +116,7 @@ def opt_convert_type_to_char(ast):
                     new_element = Element("StringConstantExpressionAst",
                                           {
                                               "StringConstantType": "SingleQuoted",
-                                              "StaticType"        : "string",
+                                              "StaticType": "string",
                                           })
                     new_element.text = chr(type_value)
 

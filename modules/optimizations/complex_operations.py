@@ -26,7 +26,6 @@ def opt_value_of_const_array(ast):
 
             if target is not None and indexes is not None:
                 if len(indexes) > 0:
-
                     new_array_ast = create_array_literal_values([target[index] for index in indexes])
 
                     log_debug(f"Apply index {indexes} operation to constant {target.__class__.__name__} {target}")

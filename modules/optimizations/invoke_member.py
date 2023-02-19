@@ -16,8 +16,10 @@ def opt_invoke_expression(ast):
         if node.tag == "CommandElements":
             subnodes = list(node)
             if len(subnodes) == 2:
-                if subnodes[0].tag == "StringConstantExpressionAst" and subnodes[0].attrib["StringConstantType"] == "BareWord" and subnodes[0].text == "Invoke-Expression":
-                    if subnodes[1].tag == "StringConstantExpressionAst" and subnodes[1].attrib["StringConstantType"] != "BareWord":
+                if subnodes[0].tag == "StringConstantExpressionAst" and subnodes[0].attrib[
+                    "StringConstantType"] == "BareWord" and subnodes[0].text == "Invoke-Expression":
+                    if subnodes[1].tag == "StringConstantExpressionAst" and subnodes[1].attrib[
+                        "StringConstantType"] != "BareWord":
 
                         script_content = subnodes[1].text
 
@@ -26,7 +28,6 @@ def opt_invoke_expression(ast):
 
                         if create_ast_file(p):
                             if sub_ast := read_ast_file(p.with_suffix(".xml")):
-
                                 log_debug("Replace Invoke-Expression by expression AST")
 
                                 replace_node(ast, subnodes[0], sub_ast.getroot(), until="CommandAst")
@@ -52,10 +53,10 @@ def opt_invoke_replace_string(ast):
                 continue
 
             if subnodes[2].tag == 'StringConstantExpressionAst' and \
-                    subnodes[2].attrib["StringConstantType"] == "BareWord" and \
-                    subnodes[2].text.lower() == "replace":
+                subnodes[2].attrib["StringConstantType"] == "BareWord" and \
+                subnodes[2].text.lower() == "replace":
                 if subnodes[1].tag == 'StringConstantExpressionAst' and \
-                        subnodes[1].attrib["StringConstantType"] != "BareWord":
+                    subnodes[1].attrib["StringConstantType"] != "BareWord":
                     arguments = subnodes[0]
                     if arguments is not None:
                         argument_values = []
@@ -74,7 +75,7 @@ def opt_invoke_replace_string(ast):
                         new_element = Element("StringConstantExpressionAst",
                                               {
                                                   "StringConstantType": "SingleQuoted",
-                                                  "StaticType"        : "string",
+                                                  "StaticType": "string",
                                               })
                         new_element.text = formatted
 
@@ -93,15 +94,14 @@ def opt_invoke_split_string(ast):
                 continue
 
             if subnodes[2].tag == 'StringConstantExpressionAst' and \
-                    subnodes[2].attrib["StringConstantType"] == "BareWord" and \
-                    subnodes[2].text.lower() == "split":
+                subnodes[2].attrib["StringConstantType"] == "BareWord" and \
+                subnodes[2].text.lower() == "split":
                 if subnodes[1].tag == 'StringConstantExpressionAst' and \
-                        subnodes[1].attrib["StringConstantType"] != "BareWord":
+                    subnodes[1].attrib["StringConstantType"] != "BareWord":
                     argument = subnodes[0]
                     if argument is not None:
                         argument = argument.find("StringConstantExpressionAst")
                         if argument is not None:
-
                             splitted = subnodes[1].text.split(argument.text)
 
                             new_array_ast = create_array_literal_values(splitted)
@@ -148,13 +148,12 @@ def opt_invoke_reverse_array(ast):
             subnodes = list(node)
             if subnodes[1].tag == "TypeExpressionAst" and subnodes[1].attrib["TypeName"].lower() == "array":
                 if subnodes[2].tag == "StringConstantExpressionAst" and \
-                        subnodes[2].attrib["StringConstantType"] == "BareWord":
+                    subnodes[2].attrib["StringConstantType"] == "BareWord":
                     argument = subnodes[0].find("VariableExpressionAst")
                     if argument is not None:
                         variable = argument.attrib["VariablePath"]
 
                         if try_reverse_variable_if_not_used(ast, variable, node):
-
                             delete_node(ast, node)
 
                             return True

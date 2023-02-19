@@ -72,7 +72,6 @@ class Optimizer:
         setattr(self.stats, "modifications", 0)
 
     def optimize(self, ast):
-
         count_in = sum(1 for _ in ast.getroot().iter())
         log_debug(f"{count_in} nodes loaded")
 

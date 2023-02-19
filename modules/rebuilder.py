@@ -148,7 +148,8 @@ class Rebuilder:
             for i, subnode in enumerate(subnodes):
                 self.indent()
                 self._rebuild_internal(subnode)
-                if subnode.tag not in ["IfStatementAst", "ForStatementAst", "TryStatementAst", "ForEachStatementAst", "PipelineAst"]:
+                if subnode.tag not in ["IfStatementAst", "ForStatementAst", "TryStatementAst", "ForEachStatementAst",
+                                       "PipelineAst"]:
                     self.write(";\n")
                 elif subnode.tag in ["PipelineAst"]:
                     if self.lastWrite(subnode).tag not in ["ScriptBlockExpressionAst"]:
@@ -351,7 +352,7 @@ class Rebuilder:
 
             for i, subnode in enumerate(node):
                 self._rebuild_internal(subnode)
-                if i < len(list(node))-1:
+                if i < len(list(node)) - 1:
                     self.write(" = ")
 
             self.write(" }")
@@ -389,7 +390,8 @@ class Rebuilder:
             elif node.attrib["StringConstantType"] == "DoubleQuoted":
                 self.write('"' + ("" if node.text is None else escape_string(node.text, mode="DoubleQuoted")) + '"')
             elif node.attrib["StringConstantType"] == "SingleQuotedHereString":
-                self.write("'" + ("" if node.text is None else escape_string(node.text, mode="SingleQuotedHereString")) + "'")
+                self.write(
+                    "'" + ("" if node.text is None else escape_string(node.text, mode="SingleQuotedHereString")) + "'")
 
         elif node.tag in ["IndexExpressionAst"]:
             subnodes = list(node)
@@ -462,11 +464,8 @@ class Rebuilder:
                 self.write('(')
                 self.write(')')
 
-
-
-
         else:
-            log_warn(f"NodeType: {node} unsupported")
+            log_warn(f"NodeType: {node.tag} unsupported")
 
     def rebuild(self, node):
         self.stats.nodes = 0

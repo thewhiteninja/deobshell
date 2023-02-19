@@ -8,7 +8,6 @@ def opt_remove_empty_nodes(ast):
         if node.tag in ["Attributes", "Redirections", "CatchTypes"]:
             subnodes = list(node)
             if len(subnodes) == 0:
-
                 log_debug(f"Remove empty node {node.tag}")
 
                 delete_node(ast, node)

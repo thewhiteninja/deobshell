@@ -7,6 +7,6 @@ SPECIAL_VARS_VALUES = {
 
 SPECIAL_VARS_NAMES = {
     "verbosepreference": "SilentlyInstall",
-    "executioncontext" : "ExecutionContext",
+    "executioncontext": "ExecutionContext",
     "pshome": "PsHome",
 }

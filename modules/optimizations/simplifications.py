@@ -88,7 +88,6 @@ def opt_simplify_paren_single_expression(ast):
                 subnodes = list(subnodes[0])
             if len(subnodes) == 1 and subnodes[0].tag not in ["CommandAst", "UnaryExpressionAst",
                                                               "BinaryExpressionAst"]:
-
                 log_debug("Replace paren with single expression by %s" % subnodes[0].tag)
 
                 replace_node(ast, node, subnodes[0])
@@ -104,7 +103,6 @@ def opt_simplify_pipeline_single_command(ast):
             if len(subnodes) == 1 and subnodes[0].tag in ["PipelineElements"]:
                 subnodes = list(subnodes[0])
             if len(subnodes) == 1:
-
                 log_debug("Replace pipeline with single elements by %s" % subnodes[0].tag)
 
                 replace_node(ast, node, subnodes[0])
@@ -121,7 +119,6 @@ def opt_simplify_single_array(ast):
                 subnodes = list(subnodes[0])
             if len(subnodes) == 1 and subnodes[0].tag not in ["CommandAst", "UnaryExpressionAst",
                                                               "BinaryExpressionAst"]:
-
                 log_debug("Replace array with single element by %s" % subnodes[0].tag)
 
                 replace_node(ast, node, subnodes[0])

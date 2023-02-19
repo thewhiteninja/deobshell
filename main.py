@@ -46,7 +46,6 @@ def deob(ps1_file):
     if create_ast_file(p):
 
         if ast := read_ast_file(p.with_suffix(".xml")):
-
             o = Optimizer()
             o.optimize(ast)
 
@@ -63,7 +62,6 @@ def format(ps1_file):
     if create_ast_file(p):
 
         if ast := read_ast_file(p.with_suffix(".xml")):
-
             r = Rebuilder(p.with_suffix(".formatted.ps1"))
             r.rebuild(ast.getroot())
 
