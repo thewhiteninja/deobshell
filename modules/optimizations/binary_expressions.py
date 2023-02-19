@@ -66,6 +66,8 @@ def opt_binary_expression_replace(ast):
             target = node.find("StringConstantExpressionAst")
             if target is not None:
                 target = target.text
+            else:
+                continue
 
             argument_values = get_array_literal_values(node.find("ArrayLiteralAst"))
 
