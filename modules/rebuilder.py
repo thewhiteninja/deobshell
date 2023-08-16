@@ -332,13 +332,13 @@ class Rebuilder:
         elif node.tag in ["UnaryExpressionAst"]:
             kind = node.attrib["TokenKind"]
 
-            if kind not in ["PostfixPlusPlus"]:
+            if kind not in ["PostfixPlusPlus", "PostfixMinusMinus"]:
                 self.rebuild_operator(kind)
 
             for subnode in node:
                 self._rebuild_internal(subnode)
 
-            if kind in ["PostfixPlusPlus"]:
+            if kind in ["PostfixPlusPlus", "PostfixMinusMinus"]:
                 self.rebuild_operator(kind)
 
         elif node.tag in ["ExitStatementAst"]:
