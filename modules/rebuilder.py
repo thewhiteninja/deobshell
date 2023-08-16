@@ -192,9 +192,9 @@ class Rebuilder:
             self.write("for(")
             self._rebuild_internal(subnodes[0])
             self.write(";")
-            self._rebuild_internal(subnodes[1])
-            self.write(";")
             self._rebuild_internal(subnodes[3])
+            self.write(";")
+            self._rebuild_internal(subnodes[1])
             self.write(")\n")
 
             self._rebuild_internal(subnodes[2])
