@@ -10,6 +10,7 @@ from modules.optimizations.dead_codes import opt_unused_variable, opt_remove_uni
 from modules.optimizations.empty_nodes import opt_remove_empty_nodes
 from modules.optimizations.invoke_member import opt_invoke_split_string, opt_invoke_replace_string, \
     opt_invoke_reverse_array, opt_invoke_expression
+from modules.optimizations.replace_long_names import opt_long_variable_names
 from modules.optimizations.simplifications import opt_simplify_paren_single_expression, \
     opt_bareword_case, opt_constant_string_type, opt_prefixed_variable_case, opt_replace_constant_variable_by_value, \
     opt_simplify_single_array, opt_simplify_pipeline_single_command, opt_type_constraint_from_convert, \
@@ -47,6 +48,7 @@ def optimize_pass(ast):
         # Complex operations
         opt_value_of_const_array,
         # Syntax simplification
+        opt_long_variable_names,
         opt_prefixed_variable_case,
         opt_bareword_case,
         opt_constant_string_type,
