@@ -309,6 +309,15 @@ class Rebuilder:
                     self.write(", ")
                 self._rebuild_internal(subnode)
 
+        elif node.tag in ["ArrayExpressionAst"]:
+            statement_block = list(node)[0]
+            statements_node = list(statement_block)[0]
+            statements = list(statements_node)
+            if len(statements) > 0:
+                self._rebuild_internal(statements[0])
+            else:
+                self.write("@()")
+
         elif node.tag in ["ArrayLiteralAst"]:
             subnodes = list(list(node)[0])
             self.write("@(")

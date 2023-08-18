@@ -20,4 +20,5 @@ OPS = {
     "And": " -and ",
     "Or": " -or ",
     "Ilt": " -lt ",
+    "DotDot": "..",
 }
