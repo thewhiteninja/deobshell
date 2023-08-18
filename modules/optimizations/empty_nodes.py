@@ -5,7 +5,8 @@ from modules.utils import delete_node
 
 def opt_remove_empty_nodes(ast):
     for node in ast.iter():
-        if node.tag in ["Attributes", "Redirections", "CatchTypes"]:
+        if node.tag in ("Attributes", "Redirections", "CatchTypes", \
+                        "Operator", "TokenKind", "BlockKind", "InvocationOperator"):
             subnodes = list(node)
             if len(subnodes) == 0:
                 log_debug(f"Remove empty node {node.tag}")
