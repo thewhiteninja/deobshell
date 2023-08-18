@@ -16,9 +16,9 @@ AST manipulation and optimization is based on a set of rules (ex: concat constan
 From the deobfuscated AST, a ps1 script is rebuilt using Python.
 See the diagram below.
 
-:information_source: It's a PoC ... only a subset of Powershell is supported for now. PR accepted :)
+:information_source: Only a subset of Powershell is supported for now but PR are welcomed :)
 
-:warning: `data` folder contains real malware samples ...
+:warning: [data/](data/) folder contains real malware samples!
 
 ## How
 
@@ -38,9 +38,9 @@ See the diagram below.
 - fix special words case
 - ...
 
-Example of BinaryExpressionAst node for format operator
+Example: BinaryExpressionAst node for format operator
 
-##### In
+##### Input
 ```xml
 <BinaryExpressionAst Operator="Format" StaticType="System.Object">
   <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">{0}{1}</StringConstantExpressionAst>
@@ -52,16 +52,14 @@ Example of BinaryExpressionAst node for format operator
   </ArrayLiteralAst>
 </BinaryExpressionAst>
 ```
-##### Out
+##### Output
 ```xml
 <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">cAcA</StringConstantExpressionAst>
 ```
 
-### Examples of script
+### Example
 
-:information_source: More samples are available in [data/](data/)
-
-Example : CTF challenge
+CTF challenge
 
 ##### Input
 
