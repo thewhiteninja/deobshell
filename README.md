@@ -16,9 +16,9 @@ AST manipulation and optimization is based on a set of rules (ex: concat constan
 From the deobfuscated AST, a ps1 script is rebuilt using Python.
 See the diagram below.
 
-:information_source: It's a PoC ... only a subset of Powershell is supported
+:information_source: It's a PoC ... only a subset of Powershell is supported for now. PR accepted :)
 
-:warning: data.zip is password protected with common password for archive that contains malware samples ...
+:warning: `data` folder contains real malware samples ...
 
 ## How
 
@@ -59,11 +59,11 @@ Example of BinaryExpressionAst node for format operator
 
 ### Examples of script
 
-:information_source: More samples are available in data.zip 
+:information_source: More samples are available in [data/](data/)
 
-- a CTF chall
+Example : CTF challenge
 
-##### In
+##### Input
 
 ```powershell
 $mRSp73  =  [ChaR[] ]" ))43]raHc[]gNIRtS[,)38]raHc[+98]raHc[+611]raHc[((eCAlper.)421]raHc[]gNIRtS[,'5IP'(eCAlper.)'$',)09]raHc[+99]raHc[+701]raHc[((eCAlper.)93]raHc[]gNIRtS[,'vzW'(eCAlper.)'
@@ -96,7 +96,7 @@ SYtgalfSYt eulaV- halB em'+'aN- ytreporPetoN e'+'pyTrebmeM- rebmeM-ddA 5IP tcej'
 tc'+'ejbO'+'SP tcejbO-weN = tc'+'ejboZck'( ()''nioJ-'x'+]3,1[)eCNERefErpESoBreV$]GniRTS[( (. " ;[aRRAy]::REVerse($MrSp73);. ( 'IeX') ( -JoiN$MrSp73)
 ```
 
-##### Out
+##### Output
 
 ```powershell
 $object = New-Object PSObject;

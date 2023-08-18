@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScriptBlockAst>
+  <Attributes />
+  <UsingStatements />
+  <NamedBlockAst>
+    <Statements>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
+        <PipelineAst>
+          <PipelineElements>
+            <CommandAst>
+              <CommandElements>
+                <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-ADComputer</StringConstantExpressionAst>
+                <CommandParameterAst ParameterName="Filter" />
+                <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">*</StringConstantExpressionAst>
+                <CommandParameterAst ParameterName="Properties" />
+                <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
+              </CommandElements>
+              <Redirections />
+            </CommandAst>
+          </PipelineElements>
+        </PipelineAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="operatingSystems" StaticType="System.Object" />
+        <PipelineAst>
+          <PipelineElements>
+            <CommandExpressionAst>
+              <MemberExpressionAst Static="False" StaticType="System.Object">
+                <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
+                <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
+              </MemberExpressionAst>
+              <Redirections />
+            </CommandExpressionAst>
+            <CommandAst>
+              <CommandElements>
+                <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Sort-Object</StringConstantExpressionAst>
+                <CommandParameterAst ParameterName="Unique" />
+              </CommandElements>
+              <Redirections />
+            </CommandAst>
+          </PipelineElements>
+        </PipelineAst>
+      </AssignmentStatementAst>
+      <ForEachStatementAst Variable="$operatingSystem" Condition="$operatingSystems">
+        <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
+        <StatementBlockAst>
+          <Statements>
+            <AssignmentStatementAst Operator="Equals">
+              <VariableExpressionAst VariablePath="computers" StaticType="System.Object" />
+              <CommandExpressionAst>
+                <MemberExpressionAst Static="False" StaticType="System.Object">
+                  <ParenExpressionAst StaticType="System.Object">
+                    <PipelineAst>
+                      <PipelineElements>
+                        <CommandExpressionAst>
+                          <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
+                          <Redirections />
+                        </CommandExpressionAst>
+                        <CommandAst>
+                          <CommandElements>
+                            <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Where-Object</StringConstantExpressionAst>
+                            <ScriptBlockExpressionAst StaticType="scriptblock">
+                              <ScriptBlockAst>
+                                <Attributes />
+                                <UsingStatements />
+                                <NamedBlockAst>
+                                  <Statements>
+                                    <PipelineAst>
+                                      <PipelineElements>
+                                        <CommandExpressionAst>
+                                          <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
+                                            <MemberExpressionAst Static="False" StaticType="System.Object">
+                                              <VariableExpressionAst VariablePath="_" StaticType="System.Object" />
+                                              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
+                                            </MemberExpressionAst>
+                                            <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
+                                          </BinaryExpressionAst>
+                                          <Redirections />
+                                        </CommandExpressionAst>
+                                      </PipelineElements>
+                                    </PipelineAst>
+                                  </Statements>
+                                </NamedBlockAst>
+                              </ScriptBlockAst>
+                            </ScriptBlockExpressionAst>
+                          </CommandElements>
+                          <Redirections />
+                        </CommandAst>
+                      </PipelineElements>
+                    </PipelineAst>
+                  </ParenExpressionAst>
+                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Name</StringConstantExpressionAst>
+                </MemberExpressionAst>
+                <Redirections />
+              </CommandExpressionAst>
+            </AssignmentStatementAst>
+            <PipelineAst>
+              <PipelineElements>
+                <CommandAst>
+                  <CommandElements>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+                    <ParenExpressionAst StaticType="System.Object">
+                      <PipelineAst>
+                        <PipelineElements>
+                          <CommandExpressionAst>
+                            <BinaryExpressionAst Operator="Plus" StaticType="System.Object">
+                              <BinaryExpressionAst Operator="Plus" StaticType="System.Object">
+                                <BinaryExpressionAst Operator="Plus" StaticType="System.Object">
+                                  <ConvertExpressionAst StaticType="string">
+                                    <TypeConstraintAst TypeName="string" />
+                                    <MemberExpressionAst Static="False" StaticType="System.Object">
+                                      <VariableExpressionAst VariablePath="computers" StaticType="System.Object" />
+                                      <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Count</StringConstantExpressionAst>
+                                    </MemberExpressionAst>
+                                    <TypeConstraintAst TypeName="string" />
+                                  </ConvertExpressionAst>
+                                  <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string"> running </StringConstantExpressionAst>
+                                </BinaryExpressionAst>
+                                <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
+                              </BinaryExpressionAst>
+                              <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">.</StringConstantExpressionAst>
+                            </BinaryExpressionAst>
+                            <Redirections />
+                          </CommandExpressionAst>
+                        </PipelineElements>
+                      </PipelineAst>
+                    </ParenExpressionAst>
+                  </CommandElements>
+                  <Redirections />
+                </CommandAst>
+              </PipelineElements>
+            </PipelineAst>
+          </Statements>
+        </StatementBlockAst>
+        <PipelineAst>
+          <PipelineElements>
+            <CommandExpressionAst>
+              <VariableExpressionAst VariablePath="operatingSystems" StaticType="System.Object" />
+              <Redirections />
+            </CommandExpressionAst>
+          </PipelineElements>
+        </PipelineAst>
+      </ForEachStatementAst>
+    </Statements>
+  </NamedBlockAst>
+</ScriptBlockAst>
