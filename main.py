@@ -22,6 +22,8 @@ def usage():
     print("Options:")
     print("      -h, --help      : Show help")
     print("      -i, --in        : Input .ps1 file")
+    if sys.platform == "linux":
+        print("      --docker        : Run PowerShell under Docker")
     print()
     sys.exit(0)
 
@@ -35,6 +37,8 @@ def parse_args():
         elif sys.argv[i] in ["-i", "--in"]:
             OPTIONS["input"] = sys.argv[i + 1]
             i += 1
+        elif sys.argv[i] == "--docker":
+            OPTIONS["docker"] = True
         else:
             OPTIONS["command"] = sys.argv[i]
         i += 1
@@ -43,7 +47,7 @@ def parse_args():
 def deob(ps1_file):
     p = pathlib.Path(ps1_file)
 
-    if create_ast_file(p):
+    if create_ast_file(p, "docker" in OPTIONS):
 
         if ast := read_ast_file(p.with_suffix(".xml")):
             o = Optimizer()
@@ -59,7 +63,7 @@ def deob(ps1_file):
 def format(ps1_file):
     p = pathlib.Path(ps1_file)
 
-    if create_ast_file(p):
+    if create_ast_file(p, "docker" in OPTIONS):
 
         if ast := read_ast_file(p.with_suffix(".xml")):
             r = Rebuilder(p.with_suffix(".formatted.ps1"))
