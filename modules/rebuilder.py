@@ -261,7 +261,10 @@ class Rebuilder:
                 self.write("}\n")
 
         elif node.tag in ["StatementBlockAst"]:
-            self.indent()
+            if node not in self._parent_map or self._parent_map[node].tag != "SwitchStatementAst":
+                self.indent()
+            else:
+                self.write(" ")
             self.write("{\n")
 
             self._level += 1
@@ -511,10 +514,11 @@ class Rebuilder:
                     self.indent()
                 elif i == default_index:
                     self.indent()
-                    self.write("default ")
+                    self.write("default")
                 self._rebuild_internal(subnode)
 
             self._level -= 1
+            self.indent()
             self.write("}\n")
 
         else:

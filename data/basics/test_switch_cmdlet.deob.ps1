@@ -1,15 +1,15 @@
 $variable = "Option2";
 switch -Wildcard ($variable) {
-   "Option1"   {
+   "Option1" {
       Write-Output "Selected Option 1";
    }
-   "Option*"   {
+   "Option*" {
       Write-Output "Selected Option with wildcard match";
    }
-   "AnotherOption"   {
+   "AnotherOption" {
       Write-Output "Selected AnotherOption";
    }
-   default    {
+   default {
       Write-Output "Default Option";
    }
 }

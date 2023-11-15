@@ -1,20 +1,20 @@
 $variable = "Option2";
 switch ($variable) {
-   "Option1"   {
+   "Option1" {
       Write-Output "Selected Option 1";
    }
-   "Option2"   {
+   "Option2" {
       Write-Output "Selected Option 2";
    }
-   "Option3"   {
+   "Option3" {
       Write-Output "Selected Option 3";
    }
-   default    {
+   default {
       Write-Output "Default Option";
    }
 }
 switch ($variable) {
-   default    {
+   default {
       Write-Output "Default Option";
    }
 }
