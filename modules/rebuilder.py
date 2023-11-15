@@ -188,16 +188,45 @@ class Rebuilder:
 
             subnodes = list(node)
 
+            block_index = -1
+            for i, subnode in enumerate(subnodes):
+                if subnode.tag == "StatementBlockAst":
+                    block_index = i
+                    break
+            else:
+                log_err("ForStatementAst without StatementBlockAst")
+                return
+
+            if block_index == 0:
+                # for (;;?) {}
+                assign_index = -1
+                update_index = -1
+            elif block_index == 2:
+                # for (x;y;?) {}
+                assign_index = 0
+                update_index = 1
+            elif subnodes[0].tag == "PipelineAst":
+                # for (;y;?) {}
+                assign_index = -1
+                update_index = 0
+            else:
+                # for (x;;?) {}
+                assign_index = 0
+                update_index = -1
+
             self.indent()
-            self.write("for(")
-            self._rebuild_internal(subnodes[0])
-            self.write(";")
-            self._rebuild_internal(subnodes[3])
-            self.write(";")
-            self._rebuild_internal(subnodes[1])
+            self.write("for (")
+            if assign_index != -1:
+                self._rebuild_internal(subnodes[assign_index])
+            self.write("; ")
+            if len(subnodes) > block_index + 1:
+                self._rebuild_internal(subnodes[block_index + 1])
+            self.write("; ")
+            if update_index != -1:
+                self._rebuild_internal(subnodes[update_index])
             self.write(")\n")
 
-            self._rebuild_internal(subnodes[2])
+            self._rebuild_internal(subnodes[block_index])
 
         elif node.tag in ["ForEachStatementAst"]:
             self.write("\n")
