@@ -2,6 +2,7 @@
 OPS = {
     "Minus": " - ",
     "Plus": " + ",
+    "Multiply": " * ",
     "Format": " -f ",
     "Equals": " = ",
     "PlusEquals": " += ",
@@ -11,7 +12,9 @@ OPS = {
     "As": " -as ",
     "Ieq": " -eq ",
     "Ige": " -ge ",
+    "Igt": " -gt ",
     "Ile": " -le ",
+    "Ilt": " -lt ",
     "Ine": " -ne ",
     "Bxor": " -bxor ",
     "Ireplace": " -replace ",
@@ -19,6 +22,5 @@ OPS = {
     "Imatch": " -match ",
     "And": " -and ",
     "Or": " -or ",
-    "Ilt": " -lt ",
     "DotDot": "..",
 }

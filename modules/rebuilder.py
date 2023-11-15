@@ -149,7 +149,7 @@ class Rebuilder:
                 self.indent()
                 self._rebuild_internal(subnode)
                 if subnode.tag not in ["IfStatementAst", "ForStatementAst", "TryStatementAst", "ForEachStatementAst",
-                                       "PipelineAst"]:
+                                       "PipelineAst", "DoWhileStatementAst", "WhileStatementAst", "SwitchStatementAst"]:
                     self.write(";\n")
                 elif subnode.tag in ["PipelineAst"]:
                     if self.lastWrite(subnode).tag not in ["ScriptBlockExpressionAst"]:
@@ -472,6 +472,50 @@ class Rebuilder:
 
                 self.write('(')
                 self.write(')')
+
+        elif node.tag in ["DoWhileStatementAst"]:
+            subnodes = list(node)
+            self.write("do ")
+            self._rebuild_internal(subnodes[0])
+            self.write("while (")
+            self._rebuild_internal(subnodes[1])
+            self.write(")\n")
+
+        elif node.tag in ["WhileStatementAst"]:
+            subnodes = list(node)
+            self.write("while (")
+            self._rebuild_internal(subnodes[1])
+            self.write(")\n")
+            self._rebuild_internal(subnodes[0])
+
+        elif node.tag in ["SwitchStatementAst"]:
+            flags = ""
+            if node.attrib["Flags"] != "None":
+                flags = "-" + node.attrib["Flags"] + " "
+
+            subnodes = list(node)
+            self.write("switch " + flags + "(")
+            self._rebuild_internal(subnodes[-1])
+            self.write(") {\n")
+            self._level += 1
+
+            default_index = -1
+            for i, subnode in enumerate(subnodes):
+                if subnode.tag == "StatementBlockAst" and \
+                   ((i > 0 and subnodes[i - 1].tag == "StatementBlockAst") or len(subnodes) == 2):
+                    default_index = i
+                    break
+
+            for i, subnode in enumerate(subnodes[:-1]):
+                if subnode.tag != "StatementBlockAst":
+                    self.indent()
+                elif i == default_index:
+                    self.indent()
+                    self.write("default ")
+                self._rebuild_internal(subnode)
+
+            self._level -= 1
+            self.write("}\n")
 
         else:
             log_warn(f"NodeType: {node.tag} unsupported")
