@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScriptBlockAst>
+  <Attributes />
+  <UsingStatements />
+  <NamedBlockAst>
+    <BlockKind />
+    <Statements>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="a" StaticType="System.Object" />
+        <Operator />
+        <CommandExpressionAst>
+          <ArrayLiteralAst StaticType="System.Object[]">
+            <Elements>
+              <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
+              <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
+              <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+            </Elements>
+          </ArrayLiteralAst>
+          <Redirections />
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
+        <Operator />
+        <CommandExpressionAst>
+          <SubExpressionAst StaticType="System.Object">
+            <StatementBlockAst>
+              <Statements>
+                <ForStatementAst Condition="$i -lt $a.Length">
+                  <AssignmentStatementAst Operator="Equals">
+                    <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                    <Operator />
+                    <CommandExpressionAst>
+                      <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
+                      <Redirections />
+                    </CommandExpressionAst>
+                  </AssignmentStatementAst>
+                  <PipelineAst>
+                    <PipelineElements>
+                      <CommandExpressionAst>
+                        <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
+                          <TokenKind />
+                          <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                        </UnaryExpressionAst>
+                        <Redirections />
+                      </CommandExpressionAst>
+                    </PipelineElements>
+                  </PipelineAst>
+                  <StatementBlockAst>
+                    <Statements>
+                      <PipelineAst>
+                        <PipelineElements>
+                          <CommandExpressionAst>
+                            <BinaryExpressionAst Operator="Plus" StaticType="System.Object">
+                              <Operator />
+                              <IndexExpressionAst StaticType="System.Object">
+                                <VariableExpressionAst VariablePath="a" StaticType="System.Object" />
+                                <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                              </IndexExpressionAst>
+                              <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
+                            </BinaryExpressionAst>
+                            <Redirections />
+                          </CommandExpressionAst>
+                        </PipelineElements>
+                      </PipelineAst>
+                    </Statements>
+                  </StatementBlockAst>
+                  <PipelineAst>
+                    <PipelineElements>
+                      <CommandExpressionAst>
+                        <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
+                          <Operator />
+                          <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                          <MemberExpressionAst Static="False" StaticType="System.Object">
+                            <VariableExpressionAst VariablePath="a" StaticType="System.Object" />
+                            <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Length<StringConstantType /></StringConstantExpressionAst>
+                          </MemberExpressionAst>
+                        </BinaryExpressionAst>
+                        <Redirections />
+                      </CommandExpressionAst>
+                    </PipelineElements>
+                  </PipelineAst>
+                </ForStatementAst>
+                <PipelineAst>
+                  <PipelineElements>
+                    <CommandExpressionAst>
+                      <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
+                      <Redirections />
+                    </CommandExpressionAst>
+                  </PipelineElements>
+                </PipelineAst>
+              </Statements>
+            </StatementBlockAst>
+          </SubExpressionAst>
+          <Redirections />
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <PipelineAst>
+        <PipelineElements>
+          <CommandAst>
+            <CommandElements>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+              <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
+            </CommandElements>
+            <InvocationOperator />
+            <Redirections />
+          </CommandAst>
+        </PipelineElements>
+      </PipelineAst>
+    </Statements>
+  </NamedBlockAst>
+</ScriptBlockAst>

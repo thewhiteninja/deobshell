@@ -550,6 +550,23 @@ class Rebuilder:
             self.indent()
             self.write("}\n")
 
+        elif node.tag in ["SubExpressionAst"]:
+            self.write("$(")
+
+            subnodes = list(node)
+            if subnodes:
+                self._level += 1
+
+                if subnodes[0].tag == "StatementBlockAst":
+                    self._rebuild_internal(subnodes[0][0])
+                else:
+                    log_warn(f"{subnodes[0].tag} unsupported in SubExpressionAst")
+
+                self._level -= 1
+                self.indent()
+
+            self.write(")")
+
         else:
             log_warn(f"NodeType: {node.tag} unsupported")
 
