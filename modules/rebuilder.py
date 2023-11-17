@@ -149,7 +149,7 @@ class Rebuilder:
                 self.indent()
                 self._rebuild_internal(subnode)
                 if subnode.tag not in ["IfStatementAst", "ForStatementAst", "TryStatementAst", "ForEachStatementAst",
-                                       "PipelineAst"]:
+                                       "PipelineAst", "DoWhileStatementAst", "WhileStatementAst", "SwitchStatementAst"]:
                     self.write(";\n")
                 elif subnode.tag in ["PipelineAst"]:
                     if self.lastWrite(subnode).tag not in ["ScriptBlockExpressionAst"]:
@@ -188,16 +188,45 @@ class Rebuilder:
 
             subnodes = list(node)
 
+            block_index = -1
+            for i, subnode in enumerate(subnodes):
+                if subnode.tag == "StatementBlockAst":
+                    block_index = i
+                    break
+            else:
+                log_err("ForStatementAst without StatementBlockAst")
+                return
+
+            if block_index == 0:
+                # for (;;?) {}
+                assign_index = -1
+                update_index = -1
+            elif block_index == 2:
+                # for (x;y;?) {}
+                assign_index = 0
+                update_index = 1
+            elif subnodes[0].tag == "PipelineAst":
+                # for (;y;?) {}
+                assign_index = -1
+                update_index = 0
+            else:
+                # for (x;;?) {}
+                assign_index = 0
+                update_index = -1
+
             self.indent()
-            self.write("for(")
-            self._rebuild_internal(subnodes[0])
-            self.write(";")
-            self._rebuild_internal(subnodes[3])
-            self.write(";")
-            self._rebuild_internal(subnodes[1])
+            self.write("for (")
+            if assign_index != -1:
+                self._rebuild_internal(subnodes[assign_index])
+            self.write("; ")
+            if len(subnodes) > block_index + 1:
+                self._rebuild_internal(subnodes[block_index + 1])
+            self.write("; ")
+            if update_index != -1:
+                self._rebuild_internal(subnodes[update_index])
             self.write(")\n")
 
-            self._rebuild_internal(subnodes[2])
+            self._rebuild_internal(subnodes[block_index])
 
         elif node.tag in ["ForEachStatementAst"]:
             self.write("\n")
@@ -261,7 +290,10 @@ class Rebuilder:
                 self.write("}\n")
 
         elif node.tag in ["StatementBlockAst"]:
-            self.indent()
+            if node not in self._parent_map or self._parent_map[node].tag != "SwitchStatementAst":
+                self.indent()
+            else:
+                self.write(" ")
             self.write("{\n")
 
             self._level += 1
@@ -472,6 +504,68 @@ class Rebuilder:
 
                 self.write('(')
                 self.write(')')
+
+        elif node.tag in ["DoWhileStatementAst"]:
+            subnodes = list(node)
+            self.write("do ")
+            self._rebuild_internal(subnodes[0])
+            self.write("while (")
+            self._rebuild_internal(subnodes[1])
+            self.write(")\n")
+
+        elif node.tag in ["WhileStatementAst"]:
+            subnodes = list(node)
+            self.write("while (")
+            self._rebuild_internal(subnodes[1])
+            self.write(")\n")
+            self._rebuild_internal(subnodes[0])
+
+        elif node.tag in ["SwitchStatementAst"]:
+            flags = ""
+            if node.attrib["Flags"] != "None":
+                flags = "-" + node.attrib["Flags"] + " "
+
+            subnodes = list(node)
+            self.write("switch " + flags + "(")
+            self._rebuild_internal(subnodes[-1])
+            self.write(") {\n")
+            self._level += 1
+
+            default_index = -1
+            for i, subnode in enumerate(subnodes):
+                if subnode.tag == "StatementBlockAst" and \
+                   ((i > 0 and subnodes[i - 1].tag == "StatementBlockAst") or len(subnodes) == 2):
+                    default_index = i
+                    break
+
+            for i, subnode in enumerate(subnodes[:-1]):
+                if subnode.tag != "StatementBlockAst":
+                    self.indent()
+                elif i == default_index:
+                    self.indent()
+                    self.write("default")
+                self._rebuild_internal(subnode)
+
+            self._level -= 1
+            self.indent()
+            self.write("}\n")
+
+        elif node.tag in ["SubExpressionAst"]:
+            self.write("$(")
+
+            subnodes = list(node)
+            if subnodes:
+                self._level += 1
+
+                if subnodes[0].tag == "StatementBlockAst":
+                    self._rebuild_internal(subnodes[0][0])
+                else:
+                    log_warn(f"{subnodes[0].tag} unsupported in SubExpressionAst")
+
+                self._level -= 1
+                self.indent()
+
+            self.write(")")
 
         else:
             log_warn(f"NodeType: {node.tag} unsupported")

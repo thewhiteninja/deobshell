@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScriptBlockAst>
+  <Attributes />
+  <UsingStatements />
+  <NamedBlockAst>
+    <BlockKind />
+    <Statements>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+        <Operator />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+          <Redirections />
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <WhileStatementAst Condition="$i-- -gt 0">
+        <StatementBlockAst>
+          <Statements>
+            <PipelineAst>
+              <PipelineElements>
+                <CommandAst>
+                  <CommandElements>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                  </CommandElements>
+                  <InvocationOperator />
+                  <Redirections />
+                </CommandAst>
+              </PipelineElements>
+            </PipelineAst>
+          </Statements>
+        </StatementBlockAst>
+        <PipelineAst>
+          <PipelineElements>
+            <CommandExpressionAst>
+              <BinaryExpressionAst Operator="Igt" StaticType="System.Object">
+                <Operator />
+                <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
+                  <TokenKind />
+                  <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                </UnaryExpressionAst>
+                <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
+              </BinaryExpressionAst>
+              <Redirections />
+            </CommandExpressionAst>
+          </PipelineElements>
+        </PipelineAst>
+      </WhileStatementAst>
+    </Statements>
+  </NamedBlockAst>
+</ScriptBlockAst>
