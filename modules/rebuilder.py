@@ -205,7 +205,7 @@ class Rebuilder:
                 # for (x;y;?) {}
                 assign_index = 0
                 update_index = 1
-            elif subnodes[0].tag == "PipelineAst":
+            elif subnodes[0].tag in ["PipelineAst", "CommandExpressionAst"]:  # format vs. deob
                 # for (;y;?) {}
                 assign_index = -1
                 update_index = 0
@@ -420,7 +420,7 @@ class Rebuilder:
             self._rebuild_internal(subnodes[1])
 
         elif node.tag in ["ConstantExpressionAst"]:
-            if node.attrib["StaticType"] == "int":
+            if node.attrib["StaticType"] in ["int", "long", "decimal", "double"]:
                 self.write(node.text)
 
         elif node.tag in ["StringConstantExpressionAst", "ExpandableStringExpressionAst"]:
@@ -467,11 +467,22 @@ class Rebuilder:
 
             self._rebuild_internal(subnodes[1])
 
-            if len(subnodes) == 3:
+            i = 2
+            while len(subnodes) > i:
                 self.indent()
-                self.write("else\n")
-                self._rebuild_internal(subnodes[2])
-                self.write("\n")
+
+                if len(subnodes) > i + 1:
+                    self.write("elseif (")
+                    self._rebuild_internal(subnodes[i])
+                    self.write(")\n")
+                    i += 1
+                else:
+                    self.write("else\n")
+
+                self._rebuild_internal(subnodes[i])
+                i += 1
+                if i == len(subnodes):
+                    self.write("\n")
 
         elif node.tag in ["InvokeMemberExpressionAst"]:
 
