@@ -26,7 +26,7 @@ def opt_invoke_expression(ast):
                         with open(p, "w") as tmp:
                             tmp.write(script_content)
 
-                        if create_ast_file(p):
+                        if create_ast_file(p, None):
                             if sub_ast := read_ast_file(p.with_suffix(".xml")):
                                 log_debug("Replace Invoke-Expression by expression AST")
 
