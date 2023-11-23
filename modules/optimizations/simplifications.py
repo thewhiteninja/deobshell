@@ -77,6 +77,7 @@ def opt_type_constraint_case(ast):
 
 
 def opt_simplify_paren_single_expression(ast):
+    replacements = []
     for node in ast.iter():
         if node.tag == "ParenExpressionAst":
             subnodes = list(node)
@@ -90,13 +91,18 @@ def opt_simplify_paren_single_expression(ast):
                                                               "BinaryExpressionAst"]:
                 log_debug("Replace paren with single expression by %s" % subnodes[0].tag)
 
-                replace_node(ast, node, subnodes[0])
+                replacements.append((node, subnodes[0]))
 
-                return True
-    return False
+    if replacements:
+        parents = parent_map(ast)
+    for node, repl in replacements:
+        replace_node(ast, node, repl, parents=parents)
+
+    return len(replacements) != 0
 
 
 def opt_simplify_pipeline_single_command(ast):
+    replacements = []
     for node in ast.iter():
         if node.tag == "PipelineAst":
             subnodes = list(node)
@@ -105,10 +111,14 @@ def opt_simplify_pipeline_single_command(ast):
             if len(subnodes) == 1:
                 log_debug("Replace pipeline with single elements by %s" % subnodes[0].tag)
 
-                replace_node(ast, node, subnodes[0])
+                replacements.append((node, subnodes[0]))
 
-                return True
-    return False
+    if replacements:
+        parents = parent_map(ast)
+    for node, repl in replacements:
+        replace_node(ast, node, repl, parents=parents)
+
+    return len(replacements) != 0
 
 
 def opt_simplify_single_array(ast):
