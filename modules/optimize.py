@@ -17,6 +17,8 @@ from modules.optimizations.simplifications import opt_convert_bogus_loops, opt_s
     opt_simplify_single_array, opt_simplify_pipeline_single_command, opt_type_constraint_from_convert, \
     opt_command_element_as_bareword, opt_type_constraint_case, opt_special_variable_case, \
     opt_lift_switch_with_just_default
+from modules.optimizations.type_convertions import opt_convert_type_to_int, opt_convert_type_to_type, \
+    opt_convert_type_to_char, opt_convert_type_to_array, opt_convert_type_to_string
 from modules.optimizations.unary_expressions import opt_unary_expression_join
 
 
@@ -44,9 +46,10 @@ def optimize_pass(ast, stats):
         opt_invoke_replace_string,
         opt_invoke_reverse_array,
         opt_invoke_expression,
-        # Convertion
+        # Type conversion
         opt_convert_type_to_type,
         opt_convert_type_to_string,
+        opt_convert_type_to_int,
         opt_convert_type_to_char,
         opt_convert_type_to_array,
         # Complex operations
