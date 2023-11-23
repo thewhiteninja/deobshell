@@ -6,6 +6,7 @@ from modules.utils import parent_map, replace_node, is_prefixed_var, get_used_va
 def opt_unused_variable(ast):
     parents = parent_map(ast)
     used_vars = get_used_vars(ast)
+    kill_list = []
 
     for node in ast.iter():
         if node.tag in ["AssignmentStatementAst"]:
@@ -13,12 +14,14 @@ def opt_unused_variable(ast):
             if subnodes[0].tag == "VariableExpressionAst":
                 if subnodes[0].attrib["VariablePath"].lower() not in used_vars:
                     if not is_prefixed_var(subnodes[0].attrib["VariablePath"]):
-                        log_debug("Remove assignement of unused variable %s" % (subnodes[0].attrib["VariablePath"]))
+                        log_debug("Remove assignment of unused variable %s" % (subnodes[0].attrib["VariablePath"]))
 
-                        parents[node].remove(node)
+                        kill_list.append(node)
 
-                        return True
-    return False
+    for node in kill_list:
+        parents[node].remove(node)
+
+    return len(kill_list) != 0
 
 
 def opt_remove_uninitialised_variable_usage(ast):
