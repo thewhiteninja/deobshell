@@ -20,7 +20,7 @@ from modules.optimizations.type_convertions import opt_convert_type_to_type, opt
 from modules.optimizations.unary_expressions import opt_unary_expression_join
 
 
-def optimize_pass(ast):
+def optimize_pass(ast, stats):
     optimizations = [
         # Remove nodes
         opt_remove_empty_nodes,
@@ -62,7 +62,11 @@ def optimize_pass(ast):
     ]
 
     for opt in optimizations:
-        if opt(ast):
+        did_opt = False
+        while opt(ast):
+            stats.steps += 1
+            did_opt = True
+        if did_opt:
             return True
 
     return False
@@ -71,16 +75,16 @@ def optimize_pass(ast):
 class Optimizer:
     def __init__(self):
         self.stats = SimpleNamespace()
-        setattr(self.stats, "modifications", 0)
+        setattr(self.stats, "steps", 0)
 
     def optimize(self, ast):
         count_in = sum(1 for _ in ast.getroot().iter())
         log_debug(f"{count_in} nodes loaded")
 
-        while optimize_pass(ast):
-            self.stats.modifications += 1
+        while optimize_pass(ast, self.stats):
+            pass
 
-        log_info(f"{self.stats.modifications} modifications applied")
+        log_info(f"{self.stats.steps} optimization steps executed")
 
         count_out = sum(1 for _ in ast.getroot().iter())
         ratio = "{:02.2f}".format(count_out / count_in * 100.00)
