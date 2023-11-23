@@ -37,20 +37,22 @@ function Invoke-WinEnum{
       "`n-------------------------------------`n";
       "Password Last changed";
       "`n-------------------------------------`n";
-       + "`n";
+      $(         $usr.LastPasswordSet;
+      ) + "`n";
       "`n-------------------------------------`n";
       "Last 5 files opened";
       "`n-------------------------------------`n";
-      $AllOpenedFiles = Get-ChildItem -Path "C:\" -Recurse -Include  -ea SilentlyContinue | Sort-Object       {
+      $AllOpenedFiles = Get-ChildItem -Path "C:\" -Recurse -Include @("*.txt", "*.pdf", "*.docx", "*.doc", "*.xls", "*.ppt") -ea SilentlyContinue | Sort-Object       {
          {
             $_.LastAccessTime;
          }
       }
 ;
-      $LastOpenedFiles = ;
+      $LastOpenedFiles = @();
       $AllOpenedFiles | ForEach-Object       {
          {
-            $owner = .Owner;
+            $owner = $(               $_.GetAccessControl();
+            ).Owner;
             $owner = $owner.Split('\')[-1];
             if ($owner -eq $UserName)
             {
@@ -65,12 +67,12 @@ function Invoke-WinEnum{
       "`n-------------------------------------`n";
       "Interesting Files";
       "`n-------------------------------------`n";
-      $NewestInterestingFiles = ;
+      $NewestInterestingFiles = @();
       if ($keywords)
       {
          $AllInterestingFiles = Get-ChildItem -Path "C:\" -Recurse -Include $keywords -ea SilentlyContinue | Where-Object          {
             {
-               $_.Mode.StartsWith('d');
+               $_.Mode.StartsWith('d') -eq $False;
             }
          }
  | Sort-Object          {
@@ -96,9 +98,9 @@ function Invoke-WinEnum{
       }
       else
       {
-         $AllInterestingFiles = Get-ChildItem -Path "C:\" -Recurse -Include  -ErrorAction SilentlyContinue | Where-Object          {
+         $AllInterestingFiles = Get-ChildItem -Path "C:\" -Recurse -Include @("*.txt", "*.pdf", "*.docx", "*.doc", "*.xls", "*.ppt", "*pass*", "*cred*") -ErrorAction SilentlyContinue | Where-Object          {
             {
-               $_.Mode.StartsWith('d');
+               $_.Mode.StartsWith('d') -eq $False;
             }
          }
  | Sort-Object          {
@@ -129,7 +131,7 @@ function Invoke-WinEnum{
       $cmd =       {
          {
             Add-Type -Assembly PresentationCore;
-            [Windows.Clipboard]::GetText() -replace @("`n", '')"`n";
+            [Windows.Clipboard]::GetText() -replace @("`n", '') -split "`n";
          }
       }
 ;
@@ -183,12 +185,12 @@ function Invoke-WinEnum{
       "`n-------------------------------------`n";
       "Services";
       "`n-------------------------------------`n";
-      $AllServices = ;
+      $AllServices = @();
       Get-WmiObject -class win32_service | ForEach-Object       {
          {
             $service = New-Object PSObject -Property @{ ServiceName = $_.DisplayName = ServiceStatus = (Get-service | where-Object             {
                {
-                  $_.DisplayName;
+                  $_.DisplayName -eq $ServiceName;
                }
             }
 ).status = ServicePathtoExe = $_.PathName = StartupType = $_.StartMode };
@@ -217,10 +219,28 @@ function Invoke-WinEnum{
          {
             "Enabled: Yes`n";
          }
+         elseif ($wscscanner -eq '00' -or $wscscanner -eq '01')
+         {
+            "Enabled: No`n";
+         }
+         else
+         {
+            "Enabled: Unknown`n";
+         }
+
          if ($wscuptodate -eq '00')
          {
             "Updated: Yes`n";
          }
+         elseif ($wscuptodate -eq '10')
+         {
+            "Updated: No`n";
+         }
+         else
+         {
+            "Updated: Unknown`n";
+         }
+
       }
       "`n-------------------------------------`n";
       "Windows Last Updated";
@@ -271,7 +291,7 @@ function Invoke-WinEnum{
       netstat -ano | Select-String -Pattern '\s+(TCP|UDP)' | ForEach-Object       {
          {
             $item = $_.line.Split(" ", [System.StringSplitOptions]::RemoveEmptyEntries);
-            if ($item[1]'^\[::')
+            if ($item[1] -notmatch '^\[::')
             {
                if ($la = $item[1] -as [ipaddress].AddressFamily -eq 'InterNetworkV6')
                {
@@ -345,7 +365,7 @@ function Invoke-WinEnum{
       $fwprofiletype = $fwprofiletypes.Get_Item($fw.CurrentProfileTypes);
       $fwrules = $fw.rules;
       "Current Firewall Profile Type in use: $fwprofiletype";
-      $AllFWRules = ;
+      $AllFWRules = @();
       $fwrules | ForEach-Object       {
          {
             $FirewallRule = New-Object PSObject -Property @{ ApplicationName = $_.Name = Protocol = $fwProtocols.Get_Item($_.Protocol) = Direction = $fwdirection.Get_Item($_.Direction) = Action = $fwaction.Get_Item($_.Action) = LocalIP = $_.LocalAddresses = LocalPort = $_.LocalPorts = RemoteIP = $_.RemoteAddresses = RemotePort = $_.RemotePorts };
