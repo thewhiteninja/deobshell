@@ -24,3 +24,20 @@ OPS = {
     "Or": " -or ",
     "DotDot": "..",
 }
+
+
+def do_const_comparison(a, b, operator):
+    if operator == "Ieq":
+        return a == b
+    elif operator == "Ine":
+        return a != b
+    elif operator == "Ige":
+        return a >= b
+    elif operator == "Igt":
+        return a > b
+    elif operator == "Ile":
+        return a <= b
+    elif operator == "Ilt":
+        return a < b
+
+    return None
