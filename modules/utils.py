@@ -25,6 +25,18 @@ def get_used_vars(ast):
     return used_vars
 
 
+def get_assigned_vars(ast):
+    vars = set()
+    for node in ast.iter():
+        if node.tag == "AssignmentStatementAst" or (
+                node.tag == "UnaryExpressionAst" and
+                node.attrib["TokenKind"] in ["PostfixPlusPlus", "PostfixMinusMinus"]):
+            if node[0].tag == "VariableExpressionAst":
+                vars.add(node[0].attrib["VariablePath"].lower())
+
+    return vars
+
+
 def create_constant_number(value):
     const_expr = Element("ConstantExpressionAst")
     const_expr.text = str(value)
