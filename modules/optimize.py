@@ -4,7 +4,7 @@ from types import SimpleNamespace
 from modules.logger import log_info, log_debug
 from modules.optimizations.alias import opt_alias
 from modules.optimizations.binary_expressions import opt_binary_expression_plus, opt_binary_expression_format, \
-    opt_binary_expression_replace, opt_binary_expression_join
+    opt_binary_expression_replace, opt_binary_expression_join, opt_binary_expression_numeric_operators
 from modules.optimizations.complex_operations import opt_value_of_const_array
 from modules.optimizations.dead_codes import opt_unused_variable, opt_remove_uninitialised_variable_usage
 from modules.optimizations.empty_nodes import opt_remove_empty_nodes
@@ -35,6 +35,7 @@ def optimize_pass(ast, stats):
         opt_binary_expression_format,
         opt_binary_expression_replace,
         opt_binary_expression_join,
+        opt_binary_expression_numeric_operators,
         # Invoke member
         opt_invoke_split_string,
         opt_invoke_replace_string,

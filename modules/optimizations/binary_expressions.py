@@ -2,10 +2,13 @@
 from xml.etree.ElementTree import Element
 
 from modules.logger import log_debug, log_err
-from modules.utils import replace_node, get_array_literal_values, create_array_literal_values
+from modules.utils import (create_array_literal_values, create_constant_number,
+                           create_constant_string, get_array_literal_values,
+                           parent_map, replace_node, to_numeric)
 
 
 def opt_binary_expression_plus(ast):
+    replacements = []
     for node in ast.iter():
         if node.tag == 'BinaryExpressionAst':
             operator = node.attrib['Operator']
@@ -14,6 +17,8 @@ def opt_binary_expression_plus(ast):
 
                 if subnodes[0].tag == "StringConstantExpressionAst":
                     left = subnodes[0].text
+                elif subnodes[0].tag == "ConstantExpressionAst":
+                    left = to_numeric(subnodes[0].text)
                 elif subnodes[0].tag == "ArrayLiteralAst":
                     left = get_array_literal_values(subnodes[0])
                 else:
@@ -21,6 +26,8 @@ def opt_binary_expression_plus(ast):
 
                 if subnodes[1].tag == "StringConstantExpressionAst":
                     right = subnodes[1].text
+                elif subnodes[1].tag == "ConstantExpressionAst":
+                    right = to_numeric(subnodes[1].text)
                 elif subnodes[1].tag == "ArrayLiteralAst":
                     right = get_array_literal_values(subnodes[1])
                 else:
@@ -29,16 +36,17 @@ def opt_binary_expression_plus(ast):
                 if left is not None and right is not None:
                     if isinstance(left, str) and isinstance(right, str):
 
-                        new_element = Element('StringConstantExpressionAst')
-                        new_element.set('StringConstantType', 'DoubleQuoted')
-                        new_element.text = left + right
+                        new_element = create_constant_string(left + right, "DoubleQuoted")
 
                         log_debug("Merging constant strings:  '%s', '%s' to '%s'" % (
                             subnodes[0].text, subnodes[1].text, new_element.text))
 
-                        replace_node(ast, node, new_element)
+                        replacements.append((node, new_element))
 
-                        return True
+                    elif isinstance(left, (int, float)) and isinstance(right, (int, float)):
+
+                        new_element = create_constant_number(left + right)
+                        replacements.append((node, new_element))
 
                     else:
                         items = []
@@ -54,10 +62,47 @@ def opt_binary_expression_plus(ast):
 
                         new_array_ast = create_array_literal_values(items)
 
-                        replace_node(ast, node, new_array_ast)
+                        replacements.append((node, new_array_ast))
 
-                        return True
-    return False
+    if replacements:
+        parents = parent_map(ast)
+    for node, repl in replacements:
+        replace_node(ast, node, repl, parents=parents)
+
+    return len(replacements) != 0
+
+
+def opt_binary_expression_numeric_operators(ast):
+    replacements = []
+    for node in ast.iter():
+        if node.tag == 'BinaryExpressionAst':
+            operator = node.attrib['Operator']
+            if operator in ["Multiply", "Minus"]:
+                subnodes = list(node)
+
+                if subnodes[0].tag == "ConstantExpressionAst":
+                    left = to_numeric(subnodes[0].text)
+                else:
+                    continue
+
+                if subnodes[1].tag == "ConstantExpressionAst":
+                    right = to_numeric(subnodes[1].text)
+                else:
+                    continue
+
+                if left is not None and right is not None:
+                    if operator == "Multiply":
+                        new_element = create_constant_number(left * right)
+                    elif operator == "Minus":
+                        new_element = create_constant_number(left - right)
+                    replacements.append((node, new_element))
+
+    if replacements:
+        parents = parent_map(ast)
+    for node, repl in replacements:
+        replace_node(ast, node, repl, parents=parents)
+
+    return len(replacements) != 0
 
 
 def opt_binary_expression_replace(ast):
