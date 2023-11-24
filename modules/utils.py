@@ -25,12 +25,31 @@ def get_used_vars(ast):
     return used_vars
 
 
+def get_assigned_vars(ast):
+    vars = set()
+    for node in ast.iter():
+        if node.tag == "AssignmentStatementAst" or (
+                node.tag == "UnaryExpressionAst" and
+                node.attrib["TokenKind"] in ["PostfixPlusPlus", "PostfixMinusMinus"]):
+            if node[0].tag == "VariableExpressionAst":
+                vars.add(node[0].attrib["VariablePath"].lower())
+
+    return vars
+
+
+def create_constant_number(value):
+    const_expr = Element("ConstantExpressionAst")
+    const_expr.text = str(value)
+    const_expr.attrib["StaticType"] = "int" if isinstance(value, int) else "double"
+    return const_expr
+
+
 def create_constant_string(value, string_type="SingleQuoted"):
-    empty_string_element = Element("StringConstantExpressionAst")
-    empty_string_element.text = value
-    empty_string_element.attrib["StringConstantType"] = string_type
-    empty_string_element.attrib["StaticType"] = "string"
-    return empty_string_element
+    string_const_expr = Element("StringConstantExpressionAst")
+    string_const_expr.text = value
+    string_const_expr.attrib["StringConstantType"] = string_type
+    string_const_expr.attrib["StaticType"] = "string"
+    return string_const_expr
 
 
 def create_array_literal_values(values, string_type="SingleQuoted"):
@@ -80,8 +99,10 @@ def parent_map(ast):
     return dict((c, p) for p in ast.iter() for c in p)
 
 
-def replace_node(ast, old, new, until=None):
-    parents = parent_map(ast)
+def replace_node(ast, old, new, until=None, parents=None):
+    if parents is None:
+        parents = parent_map(ast)
+
     for i, element in enumerate(parents[old]):
         if element == old:
             if until is not None:
@@ -89,7 +110,11 @@ def replace_node(ast, old, new, until=None):
                     element = parents[element]
             if element in parents:
                 parents[element].remove(element)
-                parents[element].insert(i, new)
+                if not isinstance(new, (list, tuple)):
+                    parents[element].insert(i, new)
+                else:
+                    for j, new_elem in enumerate(new):
+                        parents[element].insert(i + j, new_elem)
                 break
 
 
@@ -102,6 +127,14 @@ def delete_node(ast, old, until=None):
                     element = parents[element]
             parents[element].remove(element)
             break
+
+
+def to_numeric(s):
+    try:
+        result = int(s)
+    except ValueError:
+        result = float(s)
+    return result
 
 
 def check_python_version():

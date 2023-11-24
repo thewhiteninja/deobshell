@@ -2356,7 +2356,7 @@
                           </CommandExpressionAst>
                         </PipelineElements>
                       </PipelineAst>
-                      <ForEachStatementAst Variable="$Adapter" Condition="(Get-WmiObject -class win32_networkadapter -Filter &quot;NetConnectionStatus='2'&quot;)">
+                      <ForEachStatementAst Variable="$Adapter" Flags="None" Condition="(Get-WmiObject -class win32_networkadapter -Filter &quot;NetConnectionStatus='2'&quot;)">
                         <VariableExpressionAst VariablePath="Adapter" StaticType="System.Object" />
                         <StatementBlockAst>
                           <Statements>

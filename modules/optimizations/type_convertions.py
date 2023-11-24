@@ -127,3 +127,23 @@ def opt_convert_type_to_char(ast):
                     return True
 
     return False
+
+
+def opt_convert_type_to_int(ast):
+    for node in ast.iter():
+        if node.tag in ["ConvertExpressionAst"]:
+            type_name = node.find("TypeConstraintAst")
+            if type_name is not None:
+                type_name = type_name.attrib["TypeName"].lower()
+
+            if type_name == "int":
+                cst_int_node = node.find("ConstantExpressionAst")
+
+                if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
+                    log_debug("Remove no-op integer conversion")
+
+                    replace_node(ast, node, cst_int_node)
+
+                    return True
+
+    return False

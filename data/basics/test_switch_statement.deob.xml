@@ -1,104 +1,67 @@
 <ScriptBlockAst>
-  <UsingStatements/>
+  <UsingStatements />
   <NamedBlockAst>
     <Statements>
       <AssignmentStatementAst Operator="Equals">
-        <VariableExpressionAst VariablePath="variable" StaticType="System.Object"/>
+        <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
         <CommandExpressionAst>
-          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType/></StringConstantExpressionAst>
+          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
           </CommandExpressionAst>
       </AssignmentStatementAst>
       <SwitchStatementAst Flags="None" Condition="$variable">
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1<StringConstantType/></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1<StringConstantType /></StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+            <CommandAst>
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType/></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1<StringConstantType/></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1<StringConstantType /></StringConstantExpressionAst>
                   </CommandElements>
                   </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
+              </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType/></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+            <CommandAst>
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType/></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2<StringConstantType/></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2<StringConstantType /></StringConstantExpressionAst>
                   </CommandElements>
                   </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
+              </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3<StringConstantType/></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3<StringConstantType /></StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+            <CommandAst>
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType/></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3<StringConstantType/></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3<StringConstantType /></StringConstantExpressionAst>
                   </CommandElements>
                   </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
+              </Statements>
         </StatementBlockAst>
         <StatementBlockAst>
           <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+            <CommandAst>
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType/></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType/></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
                   </CommandElements>
                   </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
+              </Statements>
         </StatementBlockAst>
-        <PipelineAst>
-          <PipelineElements>
-            <CommandExpressionAst>
-              <VariableExpressionAst VariablePath="variable" StaticType="System.Object"/>
+        <CommandExpressionAst>
+              <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
               </CommandExpressionAst>
-          </PipelineElements>
-        </PipelineAst>
-      </SwitchStatementAst>
-      <SwitchStatementAst Flags="None" Condition="$variable">
-        <StatementBlockAst>
-          <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+          </SwitchStatementAst>
+      <CommandAst>
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType/></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType/></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
                   </CommandElements>
                   </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
-        </StatementBlockAst>
-        <PipelineAst>
-          <PipelineElements>
-            <CommandExpressionAst>
-              <VariableExpressionAst VariablePath="variable" StaticType="System.Object"/>
-              </CommandExpressionAst>
-          </PipelineElements>
-        </PipelineAst>
-      </SwitchStatementAst>
-    </Statements>
+              </Statements>
   </NamedBlockAst>
 </ScriptBlockAst>

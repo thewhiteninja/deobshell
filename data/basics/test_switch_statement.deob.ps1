@@ -13,8 +13,4 @@ switch ($variable) {
       Write-Output "Default Option";
    }
 }
-switch ($variable) {
-   default {
-      Write-Output "Default Option";
-   }
-}
+Write-Output "Default Option";

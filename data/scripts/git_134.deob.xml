@@ -502,7 +502,8 @@
                                           <NamedBlockAst>
                                             <Statements>
                                               <CommandExpressionAst>
-                                                    <InvokeMemberExpressionAst Static="False" StaticType="System.Object">
+                                                    <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
+                                                      <InvokeMemberExpressionAst Static="False" StaticType="System.Object">
                                                         <Arguments>
                                                           <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">d</StringConstantExpressionAst>
                                                         </Arguments>
@@ -512,7 +513,9 @@
                                                         </MemberExpressionAst>
                                                         <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">StartsWith</StringConstantExpressionAst>
                                                       </InvokeMemberExpressionAst>
-                                                      </CommandExpressionAst>
+                                                      <VariableExpressionAst VariablePath="False" StaticType="System.Object" />
+                                                    </BinaryExpressionAst>
+                                                    </CommandExpressionAst>
                                                 </Statements>
                                           </NamedBlockAst>
                                         </ScriptBlockAst>
@@ -700,7 +703,8 @@
                                           <NamedBlockAst>
                                             <Statements>
                                               <CommandExpressionAst>
-                                                    <InvokeMemberExpressionAst Static="False" StaticType="System.Object">
+                                                    <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
+                                                      <InvokeMemberExpressionAst Static="False" StaticType="System.Object">
                                                         <Arguments>
                                                           <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">d</StringConstantExpressionAst>
                                                         </Arguments>
@@ -710,7 +714,9 @@
                                                         </MemberExpressionAst>
                                                         <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">StartsWith</StringConstantExpressionAst>
                                                       </InvokeMemberExpressionAst>
-                                                      </CommandExpressionAst>
+                                                      <VariableExpressionAst VariablePath="False" StaticType="System.Object" />
+                                                    </BinaryExpressionAst>
+                                                    </CommandExpressionAst>
                                                 </Statements>
                                           </NamedBlockAst>
                                         </ScriptBlockAst>
@@ -1310,11 +1316,14 @@
                                                                         <NamedBlockAst>
                                                                           <Statements>
                                                                             <CommandExpressionAst>
-                                                                                  <MemberExpressionAst Static="False" StaticType="System.Object">
+                                                                                  <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
+                                                                                    <MemberExpressionAst Static="False" StaticType="System.Object">
                                                                                       <VariableExpressionAst VariablePath="_" StaticType="System.Object" />
                                                                                       <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">DisplayName</StringConstantExpressionAst>
                                                                                     </MemberExpressionAst>
-                                                                                    </CommandExpressionAst>
+                                                                                    <VariableExpressionAst VariablePath="ServiceName" StaticType="System.Object" />
+                                                                                  </BinaryExpressionAst>
+                                                                                  </CommandExpressionAst>
                                                                               </Statements>
                                                                         </NamedBlockAst>
                                                                       </ScriptBlockAst>
@@ -1722,7 +1731,7 @@
 -------------------------------------
 </StringConstantExpressionAst>
                             </CommandExpressionAst>
-                        <ForEachStatementAst Variable="$Adapter" Condition="(Get-WmiObject -class win32_networkadapter -Filter &quot;NetConnectionStatus='2'&quot;)">
+                        <ForEachStatementAst Variable="$Adapter" Flags="None" Condition="(Get-WmiObject -class win32_networkadapter -Filter &quot;NetConnectionStatus='2'&quot;)">
                         <VariableExpressionAst VariablePath="Adapter" StaticType="System.Object" />
                         <StatementBlockAst>
                           <Statements>
