@@ -21,6 +21,12 @@ def read_ast_file(filename):
 
 
 def create_ast_file(ps1_file, use_docker):
+    global _g_use_docker  # Hack for optimizations that need to parse a sub-AST
+    if use_docker is None:
+        use_docker = _g_use_docker
+    else:
+        _g_use_docker = use_docker
+
     log_info(f"Creating AST for: {ps1_file}")
 
     if use_docker:
