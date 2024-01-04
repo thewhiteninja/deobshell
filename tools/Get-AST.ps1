@@ -35,6 +35,20 @@ param (
 
 $global:n_nodes = 0
 
+# This works great when running docker on command line but fails when running from python.
+# When run from python, there is an error "the input device is not a TTY" and that itself stops the script.
+# $ErrorActionPreference = "Continue"
+
+# filters control characters but allows only properly-formed surrogate sequences
+$_invalidXMLChars =
+    "(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F\uFEFF\uFFFE\uFFFF]"
+
+# removes any unusual unicode characters that cant be encoded into XML
+function SanitizeXMLValues($text)
+{
+    return $text -replace $_invalidXMLChars, ""
+}
+
 function PopulateNode($xmlWriter, $object)
 {
     foreach ($child in $object.PSObject.Properties)
@@ -67,7 +81,6 @@ function PopulateNode($xmlWriter, $object)
             {
                 AddChildNode $xmlWriter ($collection[$i])
             }
-
 
             $xmlWriter.WriteEndElement()
             continue
@@ -104,7 +117,23 @@ function AddChildNode($xmlWriter, $child)
         {
             if ($property.Name -in 'Value')
             {
-                $xmlWriter.WriteString($property.Value);
+                # We have to check for invalid xml chars before trying to write.
+                # Otherwise the writer goes to error state. Not sure how to recover it.
+                $sanitized = SanitizeXMLValues($property.Value);
+                if ($sanitized.Length -ne $property.Value.Length)
+                {
+                    Write-Host "Invalid character in node value: $($_)"
+                    Write-Host "Node: $($child | Format-List | Out-String)"
+                    Write-Host "Using sanitized value: $($sanitized)"
+                }
+                try {
+                    $xmlWriter.WriteString($sanitized);
+                }
+                catch {
+                    Write-Host "Node: $($child | Out-String)"
+                    Write-Error "Error writing value: $($_)"
+                    throw $_.Exception
+                }
             }
         }
 
