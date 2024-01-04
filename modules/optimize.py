@@ -10,7 +10,7 @@ from modules.optimizations.dead_codes import opt_unused_variable, opt_remove_uni
     opt_remove_dead_loops, opt_remove_dead_switch_cases, opt_remove_dead_if_clauses
 from modules.optimizations.empty_nodes import opt_remove_empty_nodes
 from modules.optimizations.invoke_member import opt_invoke_split_string, opt_invoke_replace_string, \
-    opt_invoke_reverse_array, opt_invoke_expression
+    opt_invoke_reverse_array, opt_invoke_expression, opt_invoke_base64_decode
 from modules.optimizations.replace_long_names import opt_long_variable_names
 from modules.optimizations.simplifications import opt_convert_bogus_loops, opt_simplify_paren_single_expression, \
     opt_bareword_case, opt_constant_string_type, opt_prefixed_variable_case, opt_replace_constant_variable_by_value, \
@@ -46,6 +46,7 @@ def optimize_pass(ast, stats):
         opt_invoke_replace_string,
         opt_invoke_reverse_array,
         opt_invoke_expression,
+        opt_invoke_base64_decode,
         # Type conversion
         opt_convert_type_to_type,
         opt_convert_type_to_string,

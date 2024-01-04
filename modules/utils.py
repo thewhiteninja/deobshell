@@ -118,6 +118,22 @@ def replace_node(ast, old, new, until=None, parents=None):
                 break
 
 
+class WithValue(Element):
+    def __init__(self, element, value, **extra):
+        super().__init__(element.tag, element.attrib, **extra)
+        self.element = element
+        self.value = value
+
+    def __iter__(self):
+        return iter(self.element)
+
+    def __getattr__(self, name):
+        try:
+            return self.__getattr__(name)
+        except KeyError:
+            return getattr(self.element, name)
+
+
 def delete_node(ast, old, until=None):
     parents = parent_map(ast)
     for i, element in enumerate(parents[old]):

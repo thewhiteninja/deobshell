@@ -1,11 +1,12 @@
 # coding=utf-8
+import base64
 import os
 import pathlib
 from xml.etree.ElementTree import Element
 
 from modules.ast import create_ast_file, read_ast_file
 from modules.logger import log_debug
-from modules.utils import replace_node, delete_node, create_array_literal_values
+from modules.utils import replace_node, delete_node, create_array_literal_values, WithValue
 
 
 def opt_invoke_expression(ast):
@@ -113,6 +114,28 @@ def opt_invoke_split_string(ast):
     return False
 
 
+def opt_invoke_base64_decode(ast):
+    for node in ast.iter():
+        if node.tag == "InvokeMemberExpressionAst" and not isinstance(node, WithValue):
+            subnodes = list(node)
+
+            if len(subnodes) < 3:
+                continue
+
+            if subnodes[2].tag == 'StringConstantExpressionAst' and \
+                subnodes[2].attrib["StringConstantType"] == "BareWord" and \
+                subnodes[2].text.lower() == "FromBase64String".lower():
+                argument = subnodes[0]
+                if argument is not None:
+                    argument = argument.find("StringConstantExpressionAst")
+                    if argument is not None:
+                        python_value = base64.b64decode(argument.text)
+                        new_elem = WithValue(node, python_value)
+                        log_debug("Decoded base64 string to binary value (len: %d)" % len(python_value))
+                        replace_node(ast, node, new_elem)
+                        return True
+
+
 def try_reverse_variable_if_not_used(ast, variable, before_node):
     parent_map = dict((c, p) for p in ast.iter() for c in p)
 
@@ -159,3 +182,4 @@ def opt_invoke_reverse_array(ast):
                             return True
 
     return False
+
