@@ -6,6 +6,9 @@ import xml.etree.ElementTree as ET
 
 from modules.logger import log_info, log_debug, log_err
 
+linux_docker="mcr.microsoft.com/powershell:lts-7.2-ubuntu-22.04"
+arm64_docker="mcr.microsoft.com/powershell:mariner-2.0-arm64"
+
 
 def read_ast_file(filename):
     log_info(f"Reading input AST: {filename}")
@@ -30,15 +33,25 @@ def create_ast_file(ps1_file, use_docker):
     log_info(f"Creating AST for: {ps1_file}")
 
     if use_docker:
+        import platform
+        if platform.machine() == "arm64":
+            container = arm64_docker
+        else:
+            container = linux_docker
+
         cmd = ["docker", "run", "-v", os.path.abspath(os.path.join("tools", "Get-AST.ps1")) + ":/Get-AST.ps1",
             "-v", os.path.abspath(ps1_file / "..") + ":/scriptdir",
-            "--net", "none", "--rm", "-it", "mcr.microsoft.com/powershell:lts-7.2-ubuntu-22.04",
+            "--net", "none", "--rm",
+            # "--cap-drop=ALL", "--security-opt=no-new-privileges", # "--user=nobody",
+            #"-it",
+            container,
             "pwsh", "-File", "/Get-AST.ps1", "-ps1", "/scriptdir/" + ps1_file.name]
     else:
         cmd = ["PowerShell", "-ExecutionPolicy", "Unrestricted", "-File",
             os.path.abspath(os.path.join("tools", "Get-AST.ps1")),
             "-ps1", os.path.abspath(ps1_file)]
 
+    log_debug("Launching PowerShell: %s" % " ".join(cmd))
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     for line in result.stdout.splitlines():

@@ -14,11 +14,13 @@ class LogLevel(Enum):
 
 __log_level = LogLevel.DEBUG
 __log_fd = sys.stdout
+__log_width = 100
 
 
-def set_log_level(level):
-    global __log_level
+def set_log_level(level, max_width=100):
+    global __log_level, __log_width
     __log_level = level
+    __log_width = max_width
 
 
 def set_log_file(filename):
@@ -39,7 +41,7 @@ def log_debug(s):
     if __log_level.value < LogLevel.INFO.value:
         __log_fd.write(
             '[{:<19}]'.format(datetime.now().strftime("%m-%d-%Y %H:%M:%S")) + ' {:<8}'.format("[DEBUG]") + shrink(
-                s) + "\n")
+                s, __log_width) + "\n")
         sys.stdout.flush()
 
 
@@ -48,7 +50,7 @@ def log_info(s):
     if __log_level.value <= LogLevel.WARNING.value:
         __log_fd.write(
             '[{:<19}]'.format(datetime.now().strftime("%m-%d-%Y %H:%M:%S")) + ' {:<8}'.format("[INFO]") + shrink(
-                s) + "\n")
+                s, __log_width) + "\n")
         sys.stdout.flush()
 
 
@@ -57,7 +59,7 @@ def log_warn(s):
     if __log_level.value <= LogLevel.ERROR.value:
         __log_fd.write(
             '[{:<19}]'.format(datetime.now().strftime("%m-%d-%Y %H:%M:%S")) + ' {:<8}'.format("[WARN]") + shrink(
-                s) + "\n")
+                s, __log_width) + "\n")
         sys.stdout.flush()
 
 
@@ -66,5 +68,5 @@ def log_err(s):
     if __log_level.value <= LogLevel.NONE.value:
         __log_fd.write(
             '[{:<19}]'.format(datetime.now().strftime("%m-%d-%Y %H:%M:%S")) + ' {:<8}'.format("[ERROR]") + shrink(
-                s) + "\n")
+                s, __log_width) + "\n")
         sys.stdout.flush()

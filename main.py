@@ -16,13 +16,14 @@ def usage():
     print("Usage: " + os.path.basename(sys.argv[0]) + ' [options]')
     print()
     print("Command:")
+    print("      parse           : Parse PowerShell script to XML AST")
     print("      deob            : Deobfuscate PowerShell script")
     print("      format          : Format PowerShell script")
     print()
     print("Options:")
     print("      -h, --help      : Show help")
-    print("      -i, --in        : Input .ps1 file")
-    if sys.platform == "linux":
+    print("      -i, --in        : Input file: .ps1 or .xml with AST")
+    if sys.platform == "linux" or sys.platform == "darwin":
         print("      --docker        : Run PowerShell under Docker")
     print()
     sys.exit(0)
@@ -44,44 +45,57 @@ def parse_args():
         i += 1
 
 
-def deob(ps1_file):
-    p = pathlib.Path(ps1_file)
+def parse(input_file):
+    p = pathlib.Path(input_file)
 
-    if create_ast_file(p, "docker" in OPTIONS):
-
-        if ast := read_ast_file(p.with_suffix(".xml")):
-            o = Optimizer()
-            o.optimize(ast)
-
-            with open(p.with_suffix(".deob.xml"), "wb") as output:
-                ast.write(output)
-
-            r = Rebuilder(p.with_suffix(".deob.ps1"))
-            r.rebuild(ast.getroot())
+    if p.suffix == ".ps1":
+        if create_ast_file(p, "docker" in OPTIONS):
+            ast_file = p.with_suffix(".xml")
+            return read_ast_file(ast_file)
+    elif p.suffix == ".xml":
+        return read_ast_file(p)
 
 
-def format(ps1_file):
-    p = pathlib.Path(ps1_file)
+def deob(input_file):
+    if ast := parse(input_file):
+        o = Optimizer()
+        o.optimize(ast)
 
-    if create_ast_file(p, "docker" in OPTIONS):
+        p = pathlib.Path(input_file)
+        with open(p.with_suffix(".deob.xml"), "wb") as output:
+            ast.write(output)
 
-        if ast := read_ast_file(p.with_suffix(".xml")):
-            r = Rebuilder(p.with_suffix(".formatted.ps1"))
-            r.rebuild(ast.getroot())
+        output = p.with_suffix(".deob.ps1")
+        r = Rebuilder(output)
+        r.rebuild(ast.getroot())
+        return output
+
+
+def format(input_file):
+    if ast := parse(input_file):
+        p = pathlib.Path(input_file)
+        output = p.with_suffix(".formatted.ps1")
+        r = Rebuilder(output)
+        r.rebuild(ast.getroot())
+        return output
 
 
 def main():
     cmd = OPTIONS.setdefault("command", None)
-    if cmd == "deob":
-        deob(OPTIONS['input'])
+    input_file = pathlib.Path(OPTIONS['input'])
+
+    if cmd == "parse":
+        parse(input_file)
+    elif cmd == "deob":
+        deob(input_file)
     elif cmd == "format":
-        format(OPTIONS['input'])
+        format(input_file)
     else:
         usage()
 
 
 if __name__ == '__main__':
     welcome()
-    set_log_level(LogLevel.DEBUG)
+    set_log_level(LogLevel.DEBUG, 500)
     parse_args()
     main()
