@@ -407,3 +407,25 @@ def opt_lift_switch_with_just_default(ast):
                     return True
 
     return False
+
+
+def opt_remove_nested_statement_blocks(ast):
+    """
+    <NamedBlockAst BlockKind="End">
+      <Statements>
+        <NamedBlockAst BlockKind="End">
+           <Statements>
+           ...
+           </Statements>
+        </NamedBlockAst>
+      </Statements>
+    </NamedBlockAst>
+    """
+    for node in ast.iter():
+        if node.tag == "NamedBlockAst" and len(node) == 1 and node[0].tag == "Statements":
+            stmts = node[0]
+            if len(stmts) == 1 and stmts[0].tag == "NamedBlockAst":
+                replace_node(ast, node, stmts[0])
+                return True
+
+    return False

@@ -30,7 +30,10 @@ def opt_invoke_expression(ast):
                             if sub_ast := read_ast_file(p.with_suffix(".xml")):
                                 log_debug("Replace Invoke-Expression by expression AST")
 
-                                replace_node(ast, subnodes[0], sub_ast.getroot(), until="CommandAst")
+                                sub_tree = sub_ast.getroot()
+                                if sub_tree.tag == "ScriptBlockAst":
+                                    sub_tree = sub_tree[0]
+                                replace_node(ast, subnodes[0], sub_tree, until="CommandAst")
 
                                 ret = True
                                 break
