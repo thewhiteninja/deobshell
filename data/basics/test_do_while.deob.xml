@@ -1,41 +1,32 @@
 <ScriptBlockAst>
-  <UsingStatements/>
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
-        <VariableExpressionAst VariablePath="i" StaticType="System.Object"/>
+        <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
         <CommandExpressionAst>
           <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
-          </CommandExpressionAst>
+        </CommandExpressionAst>
       </AssignmentStatementAst>
       <DoWhileStatementAst Condition="$i-- -gt 0">
         <StatementBlockAst>
           <Statements>
-            <PipelineAst>
-              <PipelineElements>
-                <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType/></StringConstantExpressionAst>
-                    <VariableExpressionAst VariablePath="i" StaticType="System.Object"/>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+                    <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  </CommandAst>
-              </PipelineElements>
-            </PipelineAst>
-          </Statements>
+                </CommandAst>
+              </Statements>
         </StatementBlockAst>
-        <PipelineAst>
-          <PipelineElements>
-            <CommandExpressionAst>
+        <CommandExpressionAst>
               <BinaryExpressionAst Operator="Igt" StaticType="System.Object">
                 <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
-                  <VariableExpressionAst VariablePath="i" StaticType="System.Object"/>
+                  <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 </UnaryExpressionAst>
                 <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
               </BinaryExpressionAst>
-              </CommandExpressionAst>
-          </PipelineElements>
-        </PipelineAst>
-      </DoWhileStatementAst>
+            </CommandExpressionAst>
+          </DoWhileStatementAst>
     </Statements>
   </NamedBlockAst>
 </ScriptBlockAst>

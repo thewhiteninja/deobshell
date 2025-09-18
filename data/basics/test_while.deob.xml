@@ -1,22 +1,21 @@
 <ScriptBlockAst>
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
         <CommandExpressionAst>
           <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
-          </CommandExpressionAst>
+        </CommandExpressionAst>
       </AssignmentStatementAst>
       <WhileStatementAst Condition="$i-- -gt 0">
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
@@ -26,7 +25,7 @@
                 </UnaryExpressionAst>
                 <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
               </BinaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </WhileStatementAst>
     </Statements>
   </NamedBlockAst>
