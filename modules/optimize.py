@@ -25,7 +25,6 @@ from modules.optimizations.unary_expressions import opt_unary_expression_join
 def optimize_pass(ast, stats):
     optimizations = [
         # Remove nodes
-        opt_remove_empty_nodes,
         opt_unused_variable,
         opt_simplify_paren_single_expression,
         opt_simplify_pipeline_single_command,
@@ -34,6 +33,7 @@ def optimize_pass(ast, stats):
         opt_remove_dead_switch_cases,
         opt_remove_dead_loops,
         opt_remove_dead_if_clauses,
+        opt_remove_empty_nodes,
         # Expressions
         opt_unary_expression_join,
         opt_binary_expression_plus,

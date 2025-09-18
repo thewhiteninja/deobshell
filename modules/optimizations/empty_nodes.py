@@ -7,9 +7,7 @@ def opt_remove_empty_nodes(ast):
     parents = parent_map(ast)
     kill_list = []
     for node in ast.iter():
-        if node.tag in ("Attributes", "Redirections", "CatchTypes", \
-                        "Operator", "TokenKind", "BlockKind", "InvocationOperator", \
-                        "Flags", "Clauses"):
+        if node.tag in ("CommandExpressionAst"):
             if len(node) == 0:
                 kill_list.append(node)
 
