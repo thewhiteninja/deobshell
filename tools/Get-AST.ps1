@@ -22,9 +22,6 @@ param (
             if(-Not ($_ | Test-Path -PathType Leaf) ){
                 throw "The ps1 argument must be an existing file"
             }
-            if($_ -notmatch "(\.ps1)"){
-                throw "The file specified in the ps1 argument must have ps1 extension."
-            }
             return $true
         })]
     [Parameter(Mandatory=$true)]

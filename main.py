@@ -56,7 +56,11 @@ def deob(ps1_file):
             with open(p.with_suffix(".deob.xml"), "wb") as output:
                 ast.write(output)
 
-            r = Rebuilder(p.with_suffix(".deob.ps1"))
+            if p.suffix != ".ps1donotrun":
+                deob_path = p.with_suffix(".deob.ps1")
+            else:
+                deob_path = p.with_suffix(".deob.ps1donotrun")
+            r = Rebuilder(deob_path)
             r.rebuild(ast.getroot())
 
 
