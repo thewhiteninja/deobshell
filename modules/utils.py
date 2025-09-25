@@ -11,9 +11,8 @@ from datetime import datetime
 from xml.etree.ElementTree import Element
 
 
-def get_used_vars(ast):
-    parents = parent_map(ast)
-    used_vars = dict()
+def get_used_vars(ast: Element, parents: dict[Element, Element]) -> dict[str, int]:
+    used_vars: dict[str, int] = {}
     for node in ast.iter():
         if node.tag == "VariableExpressionAst":
             if parents[node].tag != "AssignmentStatementAst" or parents[node].attrib["Operator"] != "Equals":
@@ -25,7 +24,7 @@ def get_used_vars(ast):
     return used_vars
 
 
-def get_assigned_vars(ast):
+def get_assigned_vars(ast: Element) -> set[str]:
     vars = set()
     for node in ast.iter():
         if node.tag == "AssignmentStatementAst" or (
@@ -95,11 +94,25 @@ def is_prefixed_var(param):
     return prefix in ["env"]
 
 
-def parent_map(ast):
+def parent_map(ast) -> dict[Element, Element]:
     return dict((c, p) for p in ast.iter() for c in p)
 
 
+def del_tree(mapping: dict[Element, Element], to_remove: Element, ignore: tuple[Element]) -> None:
+    for node in to_remove:
+        if node not in ignore:
+            del_tree(mapping, node, ignore)
+
+    del mapping[to_remove]
+
+
+def ins_tree(mapping: dict[Element, Element], elem: Element) -> None:
+    mapping.update(parent_map(elem))
+
+
 def replace_node(ast, old, new, until=None, parents=None):
+    assert old != new
+
     if parents is None:
         parents = parent_map(ast)
 
@@ -110,22 +123,40 @@ def replace_node(ast, old, new, until=None, parents=None):
                     element = parents[element]
             if element in parents:
                 parents[element].remove(element)
+
                 if not isinstance(new, (list, tuple)):
+                    should_insert = len(new) > 0 and new not in parents
                     parents[element].insert(i, new)
+                    parents[new] = parents[element]
+
+                    del_tree(parents, element, (new,))
+                    if should_insert:
+                        ins_tree(parents, new)
                 else:
+                    should_insert = []
                     for j, new_elem in enumerate(new):
+                        should_insert.append(len(new_elem) > 0 and new_elem not in parents)
                         parents[element].insert(i + j, new_elem)
+                        parents[new_elem] = parents[element]
+
+                    del_tree(parents, element, new)
+                    for j, new_elem in enumerate(new):
+                        if should_insert[j]:
+                            ins_tree(parents, new_elem)
+
                 break
 
 
-def delete_node(ast, old, until=None):
-    parents = parent_map(ast)
+def delete_node(ast, old, until=None, parents=None):
+    if parents is None:
+        parents = parent_map(ast)
     for i, element in enumerate(parents[old]):
         if element == old:
             if until is not None:
                 while element.tag != until:
                     element = parents[element]
             parents[element].remove(element)
+            del_tree(parents, element, ())
             break
 
 

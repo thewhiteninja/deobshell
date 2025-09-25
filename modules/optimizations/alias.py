@@ -139,7 +139,7 @@ ALIAS = {
 }
 
 
-def opt_alias(ast):
+def opt_alias(ast, parents):
     for node in ast.iter():
         if node.tag in ["StringConstantExpressionAst"] and node.attrib["StringConstantType"] == "BareWord":
             old_value = node.text

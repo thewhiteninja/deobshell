@@ -8,7 +8,7 @@ from modules.logger import log_debug
 from modules.utils import replace_node, delete_node, create_array_literal_values
 
 
-def opt_invoke_expression(ast):
+def opt_invoke_expression(ast, parents):
     ret = False
     p = pathlib.Path("tmp.ps1")
 
@@ -33,7 +33,7 @@ def opt_invoke_expression(ast):
                                 sub_tree = sub_ast.getroot()
                                 if sub_tree.tag == "ScriptBlockAst":
                                     sub_tree = sub_tree[0]
-                                replace_node(ast, subnodes[0], sub_tree, until="CommandAst")
+                                replace_node(ast, subnodes[0], sub_tree, until="CommandAst", parents=parents)
 
                                 ret = True
                                 break
@@ -47,7 +47,7 @@ def opt_invoke_expression(ast):
     return ret
 
 
-def opt_invoke_replace_string(ast):
+def opt_invoke_replace_string(ast, parents):
     for node in ast.iter():
         if node.tag == "InvokeMemberExpressionAst":
             subnodes = list(node)
@@ -82,13 +82,13 @@ def opt_invoke_replace_string(ast):
                                               })
                         new_element.text = formatted
 
-                        replace_node(ast, node, new_element)
+                        replace_node(ast, node, new_element, parents=parents)
 
                         return True
     return False
 
 
-def opt_invoke_split_string(ast):
+def opt_invoke_split_string(ast, parents):
     for node in ast.iter():
         if node.tag == "InvokeMemberExpressionAst":
             subnodes = list(node)
@@ -111,18 +111,16 @@ def opt_invoke_split_string(ast):
 
                             log_debug("Apply split operation to %s" % splitted)
 
-                            replace_node(ast, node, new_array_ast)
+                            replace_node(ast, node, new_array_ast, parents=parents)
                             return True
     return False
 
 
-def try_reverse_variable_if_not_used(ast, variable, before_node):
-    parent_map = dict((c, p) for p in ast.iter() for c in p)
-
+def try_reverse_variable_if_not_used(ast, variable, before_node, parents):
     for node in ast.iter():
         if node.tag == "VariableExpressionAst" and node.attrib["VariablePath"].lower() == variable.lower():
-            parent = parent_map[node]
-            if parent is not None and parent_map[node].tag == "AssignmentStatementAst":
+            parent = parents[node]
+            if parent is not None and parents[node].tag == "AssignmentStatementAst":
                 operands = parent.find("CommandExpressionAst")
                 if operands.tag == "CommandExpressionAst":
                     operands = operands.find("ArrayLiteralAst")
@@ -133,7 +131,7 @@ def try_reverse_variable_if_not_used(ast, variable, before_node):
                     for element in operands:
                         new_element.insert(0, element)
 
-                    replace_node(ast, operands, new_element)
+                    replace_node(ast, operands, new_element, parents=parents)
 
                     log_debug(f"Apply reverse method to variable ${variable}")
 
@@ -144,7 +142,7 @@ def try_reverse_variable_if_not_used(ast, variable, before_node):
     return False
 
 
-def opt_invoke_reverse_array(ast):
+def opt_invoke_reverse_array(ast, parents):
     for node in ast.iter():
         variable = None
         if node.tag in ["InvokeMemberExpressionAst"]:
@@ -156,8 +154,8 @@ def opt_invoke_reverse_array(ast):
                     if argument is not None:
                         variable = argument.attrib["VariablePath"]
 
-                        if try_reverse_variable_if_not_used(ast, variable, node):
-                            delete_node(ast, node)
+                        if try_reverse_variable_if_not_used(ast, variable, node, parents):
+                            delete_node(ast, node, parents=parents)
 
                             return True
 

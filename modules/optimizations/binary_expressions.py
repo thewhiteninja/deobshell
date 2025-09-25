@@ -4,10 +4,10 @@ from xml.etree.ElementTree import Element
 from modules.logger import log_debug, log_err
 from modules.utils import (create_array_literal_values, create_constant_number,
                            create_constant_string, get_array_literal_values,
-                           parent_map, replace_node, to_numeric)
+                           replace_node, to_numeric)
 
 
-def opt_binary_expression_plus(ast):
+def opt_binary_expression_plus(ast, parents):
     replacements = []
     for node in ast.iter():
         if node.tag == 'BinaryExpressionAst':
@@ -64,20 +64,18 @@ def opt_binary_expression_plus(ast):
 
                         replacements.append((node, new_array_ast))
 
-    if replacements:
-        parents = parent_map(ast)
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
 
     return len(replacements) != 0
 
 
-def opt_binary_expression_numeric_operators(ast):
+def opt_binary_expression_numeric_operators(ast, parents):
     replacements = []
     for node in ast.iter():
         if node.tag == 'BinaryExpressionAst':
             operator = node.attrib['Operator']
-            if operator in ["Multiply", "Minus"]:
+            if operator in ("Multiply", "Minus"):
                 subnodes = list(node)
 
                 if subnodes[0].tag == "ConstantExpressionAst":
@@ -97,15 +95,13 @@ def opt_binary_expression_numeric_operators(ast):
                         new_element = create_constant_number(left - right)
                     replacements.append((node, new_element))
 
-    if replacements:
-        parents = parent_map(ast)
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
 
     return len(replacements) != 0
 
 
-def opt_binary_expression_replace(ast):
+def opt_binary_expression_replace(ast, parents):
     for node in ast.iter():
         if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Ireplace":
             target = node.find("StringConstantExpressionAst")
@@ -130,13 +126,13 @@ def opt_binary_expression_replace(ast):
                                   })
             new_element.text = formatted
 
-            replace_node(ast, node, new_element)
+            replace_node(ast, node, new_element, parents=parents)
 
             return True
     return False
 
 
-def opt_binary_expression_format(ast):
+def opt_binary_expression_format(ast, parents):
     for node in ast.iter():
         if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Format":
             format_str = node.find("StringConstantExpressionAst")
@@ -161,13 +157,13 @@ def opt_binary_expression_format(ast):
 
             log_debug("Apply format operation to '%s'" % formatted)
 
-            replace_node(ast, node, new_element)
+            replace_node(ast, node, new_element, parents=parents)
 
             return True
     return False
 
 
-def opt_binary_expression_join(ast):
+def opt_binary_expression_join(ast, parents):
     for node in ast.iter():
         if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Join":
             subnodes = list(node)
@@ -202,7 +198,7 @@ def opt_binary_expression_join(ast):
 
             log_debug("Apply join operation to '%s'" % joined)
 
-            replace_node(ast, node, new_element)
+            replace_node(ast, node, new_element, parents=parents)
 
             return True
     return False

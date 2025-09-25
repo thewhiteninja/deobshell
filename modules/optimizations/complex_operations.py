@@ -4,7 +4,7 @@ from modules.logger import log_debug
 from modules.utils import replace_node, get_array_literal_values, create_array_literal_values
 
 
-def opt_value_of_const_array(ast):
+def opt_value_of_const_array(ast, parents):
     for node in ast.iter():
         if node.tag == "IndexExpressionAst":
             subnodes = list(node)
@@ -30,7 +30,7 @@ def opt_value_of_const_array(ast):
 
                     log_debug(f"Apply index {indexes} operation to constant {target.__class__.__name__} {target}")
 
-                    replace_node(ast, node, new_array_ast)
+                    replace_node(ast, node, new_array_ast, parents=parents)
 
                     return True
 

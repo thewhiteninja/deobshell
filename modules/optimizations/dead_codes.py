@@ -1,13 +1,12 @@
 # coding=utf-8
 from modules.logger import log_debug, log_err
 from modules.operators import do_const_comparison
-from modules.utils import create_constant_number, parent_map, replace_node, \
-    is_prefixed_var, get_used_vars, to_numeric
+from modules.utils import create_constant_number, replace_node, \
+    is_prefixed_var, get_used_vars, to_numeric, del_tree
 
 
-def opt_unused_variable(ast):
-    parents = parent_map(ast)
-    used_vars = get_used_vars(ast)
+def opt_unused_variable(ast, parents):
+    used_vars = get_used_vars(ast, parents)
     kill_list = []
 
     for node in ast.iter():
@@ -22,11 +21,12 @@ def opt_unused_variable(ast):
 
     for node in kill_list:
         parents[node].remove(node)
+        del_tree(parents, node, ())
 
     return len(kill_list) != 0
 
 
-def opt_remove_uninitialised_variable_usage(ast):
+def opt_remove_uninitialised_variable_usage(ast, parents):
     assigned = set()
     kill_list = []
     replacements = []
@@ -87,11 +87,9 @@ def opt_remove_uninitialised_variable_usage(ast):
 
                         log_debug("Remove unassigned variable use '%s'" % (variable.attrib["VariablePath"]))
 
-    if kill_list or replacements:
-        parents = parent_map(ast)
-
     for node in kill_list:
         parents[node].remove(node)
+        del_tree(parents, node, ())
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -99,7 +97,7 @@ def opt_remove_uninitialised_variable_usage(ast):
     return len(kill_list) + len(replacements) != 0
 
 
-def opt_remove_dead_switch_cases(ast):
+def opt_remove_dead_switch_cases(ast, parents):
     """
     Cuts 27 and 28 from
     switch (48) {
@@ -141,11 +139,9 @@ def opt_remove_dead_switch_cases(ast):
             if kill_counter == len(node) - 1:
                 kill_list.append(node)
 
-    if kill_list or replacements:
-        parents = parent_map(ast)
-
     for node in kill_list:
         parents[node].remove(node)
+        del_tree(parents, node, ())
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -160,11 +156,11 @@ def _get_const_binary_expression_result(node):
             a = to_numeric(bin_expr[0].text)
             b = to_numeric(bin_expr[1].text)
             return do_const_comparison(a, b, bin_expr.attrib["Operator"])
-        
+
     return None
 
 
-def opt_remove_dead_loops(ast):
+def opt_remove_dead_loops(ast, parents):
     kill_list = []
     replacements = []
 
@@ -182,7 +178,7 @@ def opt_remove_dead_loops(ast):
 
             if assign[1][0].tag != "ConstantExpressionAst":
                 continue
-            
+
             cond = subnodes[-1]
             if cond.tag != "CommandExpressionAst" or cond[0].tag != "BinaryExpressionAst":
                 continue
@@ -231,11 +227,9 @@ def opt_remove_dead_loops(ast):
 
                     kill_list.append(node)
 
-    if kill_list or replacements:
-        parents = parent_map(ast)
-
     for node in kill_list:
         parents[node].remove(node)
+        del_tree(parents, node, ())
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -243,7 +237,7 @@ def opt_remove_dead_loops(ast):
     return len(kill_list) + len(replacements) != 0
 
 
-def opt_remove_dead_if_clauses(ast):
+def opt_remove_dead_if_clauses(ast, parents):
     kill_list = []
     replacements = []
 
@@ -282,11 +276,10 @@ def opt_remove_dead_if_clauses(ast):
                 # All conditions False, without else -> entire If gone.
                 kill_list.append(node)
 
-    if kill_list or replacements:
-        parents = parent_map(ast)
-
     for node in kill_list:
-        parents[node].remove(node)
+        if node in parents:
+            parents[node].remove(node)
+            del_tree(parents, node, ())
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)

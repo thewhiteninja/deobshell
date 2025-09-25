@@ -20,6 +20,7 @@ from modules.optimizations.simplifications import opt_convert_bogus_loops, opt_s
 from modules.optimizations.type_convertions import opt_convert_type_to_int, opt_convert_type_to_type, \
     opt_convert_type_to_char, opt_convert_type_to_array, opt_convert_type_to_string
 from modules.optimizations.unary_expressions import opt_unary_expression_join
+from modules.utils import parent_map
 
 
 def optimize_pass(ast, stats):
@@ -73,7 +74,7 @@ def optimize_pass(ast, stats):
 
     for opt in optimizations:
         did_opt = False
-        while opt(ast):
+        while opt(ast, parents):
             stats.steps += 1
             did_opt = True
         if did_opt:
@@ -91,7 +92,8 @@ class Optimizer:
         count_in = sum(1 for _ in ast.getroot().iter())
         log_debug(f"{count_in} nodes loaded")
 
-        while optimize_pass(ast, self.stats):
+        parents = parent_map(ast)
+        while optimize_pass(ast, self.stats, parents):
             pass
 
         log_info(f"{self.stats.steps} optimization steps executed")

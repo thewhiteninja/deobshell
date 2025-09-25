@@ -6,7 +6,7 @@ from modules.special_vars import SPECIAL_VARS_VALUES
 from modules.utils import replace_node, create_array_literal_values
 
 
-def opt_convert_type_to_type(ast):
+def opt_convert_type_to_type(ast, parents):
     for node in ast.iter():
         if node.tag in ["ConvertExpressionAst"]:
             type_name = node.find("TypeConstraintAst")
@@ -28,12 +28,12 @@ def opt_convert_type_to_type(ast):
 
                     log_debug("Replace type string '%s' by type '%s'" % (type_value, new_element.text))
 
-                    replace_node(ast, node, new_element)
+                    replace_node(ast, node, new_element, parents=parents)
 
                     return True
 
 
-def opt_convert_type_to_string(ast):
+def opt_convert_type_to_string(ast, parents):
     for node in ast.iter():
         if node.tag in ["ConvertExpressionAst"]:
             type_name = node.find("TypeConstraintAst")
@@ -61,7 +61,7 @@ def opt_convert_type_to_string(ast):
 
                     log_debug("Replace type of variable $%s to string" % (var_value))
 
-                    replace_node(ast, node, new_element)
+                    replace_node(ast, node, new_element, parents=parents)
 
                     return True
 
@@ -69,12 +69,12 @@ def opt_convert_type_to_string(ast):
                 if cst_string_node is not None:
                     log_debug("Remove unused cast to string for '%s'" % (cst_string_node.text))
 
-                    replace_node(ast, node, cst_string_node)
+                    replace_node(ast, node, cst_string_node, parents=parents)
 
                     return True
 
 
-def opt_convert_type_to_array(ast):
+def opt_convert_type_to_array(ast, parents):
     for node in ast.iter():
         if node.tag in ["ConvertExpressionAst"]:
             type_name = node.find("TypeConstraintAst")
@@ -86,7 +86,7 @@ def opt_convert_type_to_array(ast):
                 if cst_string_node is not None:
                     log_debug("Replace array of one string to string '%s'" % cst_string_node.text)
 
-                    replace_node(ast, node, cst_string_node)
+                    replace_node(ast, node, cst_string_node, parents=parents)
 
             elif type_name == "char[]":
                 cst_string_node = node.find("StringConstantExpressionAst")
@@ -97,10 +97,12 @@ def opt_convert_type_to_array(ast):
 
                     log_debug("Replace (cast) string to array: '%s'" % arrayed)
 
-                    replace_node(ast, node, new_array_ast)
+                    replace_node(ast, node, new_array_ast, parents=parents)
 
 
-def opt_convert_type_to_char(ast):
+def opt_convert_type_to_char(ast, parents):
+    had_any = False
+
     for node in ast.iter():
         if node.tag in ["ConvertExpressionAst"]:
             type_name = node.find("TypeConstraintAst")
@@ -122,14 +124,15 @@ def opt_convert_type_to_char(ast):
 
                     log_debug("Replace integer %d convertion to char '%s'" % (type_value, new_element.text))
 
-                    replace_node(ast, node, new_element)
+                    replace_node(ast, node, new_element, parents=parents)
+                    had_any = True
 
-                    return True
-
-    return False
+    return had_any
 
 
-def opt_convert_type_to_int(ast):
+def opt_convert_type_to_int(ast, parents):
+    had_any = False
+
     for node in ast.iter():
         if node.tag in ["ConvertExpressionAst"]:
             type_name = node.find("TypeConstraintAst")
@@ -142,8 +145,7 @@ def opt_convert_type_to_int(ast):
                 if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
                     log_debug("Remove no-op integer conversion")
 
-                    replace_node(ast, node, cst_int_node)
+                    replace_node(ast, node, cst_int_node, parents=parents)
+                    had_any = True
 
-                    return True
-
-    return False
+    return had_any
