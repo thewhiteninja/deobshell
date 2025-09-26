@@ -44,5 +44,7 @@ BAREWORDS = {
     "get": "Get",
     "item": "Item",
     "tochararray": "ToCharArray",
-    "string": "String"
+    "string": "String",
+    "assembly": "Assembly",
+    "utf8": "UTF8",
 }

@@ -1,0 +1,151 @@
+<ScriptBlockAst>
+  <NamedBlockAst BlockKind="End">
+    <Statements>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="PlusEquals">
+        <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="j" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">5</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="MultiplyEquals">
+        <VariableExpressionAst VariablePath="j" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="k" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">6</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="MinusEquals">
+        <VariableExpressionAst VariablePath="k" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="m" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <BinaryExpressionAst Operator="Rem" StaticType="System.Object">
+            <ParenExpressionAst StaticType="System.Object">
+              <CommandExpressionAst>
+                    <BinaryExpressionAst Operator="Divide" StaticType="System.Object">
+                      <ConstantExpressionAst StaticType="int">16</ConstantExpressionAst>
+                      <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+                    </BinaryExpressionAst>
+                  </CommandExpressionAst>
+                </ParenExpressionAst>
+            <ConstantExpressionAst StaticType="int">9</ConstantExpressionAst>
+          </BinaryExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="RemainderEquals">
+        <VariableExpressionAst VariablePath="m" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">7</ConstantExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="s" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <BinaryExpressionAst Operator="Bor" StaticType="System.Object">
+            <ParenExpressionAst StaticType="System.Object">
+              <CommandExpressionAst>
+                    <BinaryExpressionAst Operator="Shl" StaticType="System.Object">
+                      <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
+                      <ConstantExpressionAst StaticType="int">8</ConstantExpressionAst>
+                    </BinaryExpressionAst>
+                  </CommandExpressionAst>
+                </ParenExpressionAst>
+            <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
+          </BinaryExpressionAst>
+        </CommandExpressionAst>
+      </AssignmentStatementAst>
+      <CommandAst InvocationOperator="Unknown">
+            <CommandElements>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+              <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+              <VariableExpressionAst VariablePath="j" StaticType="System.Object" />
+              <VariableExpressionAst VariablePath="k" StaticType="System.Object" />
+              <VariableExpressionAst VariablePath="m" StaticType="System.Object" />
+              <VariableExpressionAst VariablePath="s" StaticType="System.Object" />
+            </CommandElements>
+          </CommandAst>
+        <IfStatementAst>
+        <CommandExpressionAst>
+              <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
+                <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
+                <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
+              </BinaryExpressionAst>
+            </CommandExpressionAst>
+          <StatementBlockAst>
+          <Statements>
+            <AssignmentStatementAst Operator="Equals">
+              <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
+              <CommandExpressionAst>
+                <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
+              </CommandExpressionAst>
+            </AssignmentStatementAst>
+          </Statements>
+        </StatementBlockAst>
+        <CommandExpressionAst>
+              <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
+                <VariableExpressionAst VariablePath="j" StaticType="System.Object" />
+                <ConstantExpressionAst StaticType="int">5</ConstantExpressionAst>
+              </BinaryExpressionAst>
+            </CommandExpressionAst>
+          <StatementBlockAst>
+          <Statements>
+            <AssignmentStatementAst Operator="Equals">
+              <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
+              <CommandExpressionAst>
+                <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
+              </CommandExpressionAst>
+            </AssignmentStatementAst>
+          </Statements>
+        </StatementBlockAst>
+        <StatementBlockAst>
+          <Statements>
+            <AssignmentStatementAst Operator="Equals">
+              <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
+              <CommandExpressionAst>
+                <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
+              </CommandExpressionAst>
+            </AssignmentStatementAst>
+          </Statements>
+        </StatementBlockAst>
+      </IfStatementAst>
+      <CommandAst InvocationOperator="Unknown">
+            <CommandElements>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+              <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
+            </CommandElements>
+          </CommandAst>
+        <AssignmentStatementAst Operator="Equals">
+        <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
+        <CommandExpressionAst>
+          <ConstantExpressionAst StaticType="int">-5</ConstantExpressionAst></CommandExpressionAst>
+      </AssignmentStatementAst>
+      <CommandAst InvocationOperator="Unknown">
+            <CommandElements>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+              <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
+            </CommandElements>
+          </CommandAst>
+        </Statements>
+  </NamedBlockAst>
+</ScriptBlockAst>
