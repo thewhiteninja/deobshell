@@ -13,14 +13,13 @@ from xml.etree.ElementTree import Element
 
 def get_used_vars(ast: Element, parents: dict[Element, Element]) -> dict[str, int]:
     used_vars: dict[str, int] = {}
-    for node in ast.iter():
-        if node.tag == "VariableExpressionAst":
-            if parents[node].tag != "AssignmentStatementAst" or parents[node].attrib["Operator"] != "Equals":
-                var_name = node.attrib["VariablePath"].lower()
-                if var_name in used_vars:
-                    used_vars[var_name] += 1
-                else:
-                    used_vars[var_name] = 1
+    for node in ast.iter("VariableExpressionAst"):
+        if parents[node].tag != "AssignmentStatementAst" or parents[node].attrib["Operator"] != "Equals":
+            var_name = node.attrib["VariablePath"].lower()
+            if var_name in used_vars:
+                used_vars[var_name] += 1
+            else:
+                used_vars[var_name] = 1
     return used_vars
 
 
@@ -29,7 +28,7 @@ def get_assigned_vars(ast: Element) -> set[str]:
     for node in ast.iter():
         if node.tag == "AssignmentStatementAst" or (
                 node.tag == "UnaryExpressionAst" and
-                node.attrib["TokenKind"] in ["PostfixPlusPlus", "PostfixMinusMinus"]):
+                node.attrib["TokenKind"] in ("PostfixPlusPlus", "PostfixMinusMinus")):
             if node[0].tag == "VariableExpressionAst":
                 vars.add(node[0].attrib["VariablePath"].lower())
 

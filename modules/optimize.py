@@ -23,7 +23,7 @@ from modules.optimizations.unary_expressions import opt_unary_expression_join
 from modules.utils import parent_map
 
 
-def optimize_pass(ast, stats):
+def optimize_pass(ast, stats, parents):
     optimizations = [
         # Remove nodes
         opt_unused_variable,

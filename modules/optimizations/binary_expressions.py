@@ -9,60 +9,59 @@ from modules.utils import (create_array_literal_values, create_constant_number,
 
 def opt_binary_expression_plus(ast, parents):
     replacements = []
-    for node in ast.iter():
-        if node.tag == 'BinaryExpressionAst':
-            operator = node.attrib['Operator']
-            if operator == "Plus":
-                subnodes = list(node)
+    for node in ast.iter('BinaryExpressionAst'):
+        operator = node.attrib['Operator']
+        if operator == "Plus":
+            subnodes = list(node)
 
-                if subnodes[0].tag == "StringConstantExpressionAst":
-                    left = subnodes[0].text
-                elif subnodes[0].tag == "ConstantExpressionAst":
-                    left = to_numeric(subnodes[0].text)
-                elif subnodes[0].tag == "ArrayLiteralAst":
-                    left = get_array_literal_values(subnodes[0])
+            if subnodes[0].tag == "StringConstantExpressionAst":
+                left = subnodes[0].text
+            elif subnodes[0].tag == "ConstantExpressionAst":
+                left = to_numeric(subnodes[0].text)
+            elif subnodes[0].tag == "ArrayLiteralAst":
+                left = get_array_literal_values(subnodes[0])
+            else:
+                continue
+
+            if subnodes[1].tag == "StringConstantExpressionAst":
+                right = subnodes[1].text
+            elif subnodes[1].tag == "ConstantExpressionAst":
+                right = to_numeric(subnodes[1].text)
+            elif subnodes[1].tag == "ArrayLiteralAst":
+                right = get_array_literal_values(subnodes[1])
+            else:
+                continue
+
+            if left is not None and right is not None:
+                if isinstance(left, str) and isinstance(right, str):
+
+                    new_element = create_constant_string(left + right, "DoubleQuoted")
+
+                    log_debug("Merging constant strings:  '%s', '%s' to '%s'" % (
+                        subnodes[0].text, subnodes[1].text, new_element.text))
+
+                    replacements.append((node, new_element))
+
+                elif isinstance(left, (int, float)) and isinstance(right, (int, float)):
+
+                    new_element = create_constant_number(left + right)
+                    replacements.append((node, new_element))
+
                 else:
-                    continue
+                    items = []
+                    if isinstance(left, str) and isinstance(right, list):
+                        right.insert(0, left)
+                        items = right
+                    elif isinstance(left, list) and isinstance(right, str):
+                        left.append(right)
+                        items = left
+                    elif isinstance(left, list) and isinstance(right, list):
+                        left.extend(right)
+                        items = left
 
-                if subnodes[1].tag == "StringConstantExpressionAst":
-                    right = subnodes[1].text
-                elif subnodes[1].tag == "ConstantExpressionAst":
-                    right = to_numeric(subnodes[1].text)
-                elif subnodes[1].tag == "ArrayLiteralAst":
-                    right = get_array_literal_values(subnodes[1])
-                else:
-                    continue
+                    new_array_ast = create_array_literal_values(items)
 
-                if left is not None and right is not None:
-                    if isinstance(left, str) and isinstance(right, str):
-
-                        new_element = create_constant_string(left + right, "DoubleQuoted")
-
-                        log_debug("Merging constant strings:  '%s', '%s' to '%s'" % (
-                            subnodes[0].text, subnodes[1].text, new_element.text))
-
-                        replacements.append((node, new_element))
-
-                    elif isinstance(left, (int, float)) and isinstance(right, (int, float)):
-
-                        new_element = create_constant_number(left + right)
-                        replacements.append((node, new_element))
-
-                    else:
-                        items = []
-                        if isinstance(left, str) and isinstance(right, list):
-                            right.insert(0, left)
-                            items = right
-                        elif isinstance(left, list) and isinstance(right, str):
-                            left.append(right)
-                            items = left
-                        elif isinstance(left, list) and isinstance(right, list):
-                            left.extend(right)
-                            items = left
-
-                        new_array_ast = create_array_literal_values(items)
-
-                        replacements.append((node, new_array_ast))
+                    replacements.append((node, new_array_ast))
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -72,28 +71,27 @@ def opt_binary_expression_plus(ast, parents):
 
 def opt_binary_expression_numeric_operators(ast, parents):
     replacements = []
-    for node in ast.iter():
-        if node.tag == 'BinaryExpressionAst':
-            operator = node.attrib['Operator']
-            if operator in ("Multiply", "Minus"):
-                subnodes = list(node)
+    for node in ast.iter('BinaryExpressionAst'):
+        operator = node.attrib['Operator']
+        if operator in ("Multiply", "Minus"):
+            subnodes = list(node)
 
-                if subnodes[0].tag == "ConstantExpressionAst":
-                    left = to_numeric(subnodes[0].text)
-                else:
-                    continue
+            if subnodes[0].tag == "ConstantExpressionAst":
+                left = to_numeric(subnodes[0].text)
+            else:
+                continue
 
-                if subnodes[1].tag == "ConstantExpressionAst":
-                    right = to_numeric(subnodes[1].text)
-                else:
-                    continue
+            if subnodes[1].tag == "ConstantExpressionAst":
+                right = to_numeric(subnodes[1].text)
+            else:
+                continue
 
-                if left is not None and right is not None:
-                    if operator == "Multiply":
-                        new_element = create_constant_number(left * right)
-                    elif operator == "Minus":
-                        new_element = create_constant_number(left - right)
-                    replacements.append((node, new_element))
+            if left is not None and right is not None:
+                if operator == "Multiply":
+                    new_element = create_constant_number(left * right)
+                elif operator == "Minus":
+                    new_element = create_constant_number(left - right)
+                replacements.append((node, new_element))
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -102,8 +100,8 @@ def opt_binary_expression_numeric_operators(ast, parents):
 
 
 def opt_binary_expression_replace(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Ireplace":
+    for node in ast.iter("BinaryExpressionAst"):
+        if node.attrib["Operator"] == "Ireplace":
             target = node.find("StringConstantExpressionAst")
             if target is not None:
                 target = target.text
@@ -133,8 +131,8 @@ def opt_binary_expression_replace(ast, parents):
 
 
 def opt_binary_expression_format(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Format":
+    for node in ast.iter("BinaryExpressionAst"):
+        if node.attrib["Operator"] == "Format":
             format_str = node.find("StringConstantExpressionAst")
             if format_str is not None:
                 format_str = format_str.text
@@ -164,8 +162,8 @@ def opt_binary_expression_format(ast, parents):
 
 
 def opt_binary_expression_join(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["BinaryExpressionAst"] and node.attrib["Operator"] == "Join":
+    for node in ast.iter("BinaryExpressionAst"):
+        if node.attrib["Operator"] == "Join":
             subnodes = list(node)
 
             joiner = node.find("StringConstantExpressionAst")

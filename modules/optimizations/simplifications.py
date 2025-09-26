@@ -82,20 +82,19 @@ def opt_type_constraint_case(ast, parents):
 
 def opt_simplify_paren_single_expression(ast, parents):
     replacements = []
-    for node in ast.iter():
-        if node.tag == "ParenExpressionAst":
-            subnodes = list(node)
-            if len(subnodes) == 1 and subnodes[0].tag == "PipelineAst":
-                subnodes = list(subnodes[0])
-            if len(subnodes) == 1 and subnodes[0].tag == "PipelineElements":
-                subnodes = list(subnodes[0])
-            if len(subnodes) == 1 and subnodes[0].tag == "CommandExpressionAst":
-                subnodes = list(subnodes[0])
-            if len(subnodes) == 1 and subnodes[0].tag not in ("CommandAst", "UnaryExpressionAst",
-                                                              "BinaryExpressionAst"):
-                log_debug("Replace paren with single expression by %s" % subnodes[0].tag)
+    for node in ast.iter("ParenExpressionAst"):
+        subnodes = list(node)
+        if len(subnodes) == 1 and subnodes[0].tag == "PipelineAst":
+            subnodes = list(subnodes[0])
+        if len(subnodes) == 1 and subnodes[0].tag == "PipelineElements":
+            subnodes = list(subnodes[0])
+        if len(subnodes) == 1 and subnodes[0].tag == "CommandExpressionAst":
+            subnodes = list(subnodes[0])
+        if len(subnodes) == 1 and subnodes[0].tag not in ("CommandAst", "UnaryExpressionAst",
+                                                          "BinaryExpressionAst"):
+            log_debug("Replace paren with single expression by %s" % subnodes[0].tag)
 
-                replacements.append((node, subnodes[0]))
+            replacements.append((node, subnodes[0]))
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -105,15 +104,14 @@ def opt_simplify_paren_single_expression(ast, parents):
 
 def opt_simplify_pipeline_single_command(ast, parents):
     replacements = []
-    for node in ast.iter():
-        if node.tag == "PipelineAst":
-            subnodes = list(node)
-            if len(subnodes) == 1 and subnodes[0].tag == "PipelineElements":
-                subnodes = list(subnodes[0])
-            if len(subnodes) == 1:
-                log_debug("Replace pipeline with single elements by %s" % subnodes[0].tag)
+    for node in ast.iter("PipelineAst"):
+        subnodes = list(node)
+        if len(subnodes) == 1 and subnodes[0].tag == "PipelineElements":
+            subnodes = list(subnodes[0])
+        if len(subnodes) == 1:
+            log_debug("Replace pipeline with single elements by %s" % subnodes[0].tag)
 
-                replacements.append((node, subnodes[0]))
+            replacements.append((node, subnodes[0]))
 
     for node, repl in replacements:
         replace_node(ast, node, repl, parents=parents)
@@ -122,18 +120,17 @@ def opt_simplify_pipeline_single_command(ast, parents):
 
 
 def opt_simplify_single_array(ast, parents):
-    for node in ast.iter():
-        if node.tag == "ArrayLiteralAst":
-            subnodes = list(node)
-            if len(subnodes) == 1 and subnodes[0].tag == "Elements":
-                subnodes = list(subnodes[0])
-            if len(subnodes) == 1 and subnodes[0].tag not in ("CommandAst", "UnaryExpressionAst",
-                                                              "BinaryExpressionAst"):
-                log_debug("Replace array with single element by %s" % subnodes[0].tag)
+    for node in ast.iter("ArrayLiteralAst"):
+        subnodes = list(node)
+        if len(subnodes) == 1 and subnodes[0].tag == "Elements":
+            subnodes = list(subnodes[0])
+        if len(subnodes) == 1 and subnodes[0].tag not in ("CommandAst", "UnaryExpressionAst",
+                                                          "BinaryExpressionAst"):
+            log_debug("Replace array with single element by %s" % subnodes[0].tag)
 
-                replace_node(ast, node, subnodes[0], parents=parents)
+            replace_node(ast, node, subnodes[0], parents=parents)
 
-                return True
+            return True
     return False
 
 
@@ -254,7 +251,7 @@ class ConstantPropagator:
         if node.tag == "StatementBlockAst":
             self._scope.enter()
 
-        elif node.tag in ["ForStatementAst", "ForEachStatementAst", "DoWhileStatementAst", "WhileStatementAst"]:
+        elif node.tag in ("ForStatementAst", "ForEachStatementAst", "DoWhileStatementAst", "WhileStatementAst"):
             if self._loop_assigned is None:
                 # Once entering any type of loop, get a set of variables the loop touches.
                 # This includes any nested loop statements, so we only get it once (until
@@ -262,7 +259,7 @@ class ConstantPropagator:
                 self._loop_assigned = get_assigned_vars(node)
                 is_loop_tag = True
 
-        elif node.tag in ["AssignmentStatementAst"]:
+        elif node.tag == "AssignmentStatementAst":
             subnodes = list(node)
             if subnodes[0].tag == "VariableExpressionAst":
                 variable = subnodes[0]
@@ -282,14 +279,14 @@ class ConstantPropagator:
                     else:
                         self._scope.del_var(var_name)
 
-        elif node.tag == "UnaryExpressionAst" and node.attrib["TokenKind"] in ["PostfixPlusPlus", "PostfixMinusMinus"]:
+        elif node.tag == "UnaryExpressionAst" and node.attrib["TokenKind"] in ("PostfixPlusPlus", "PostfixMinusMinus"):
             subnodes = list(node)
             if subnodes[0].tag == "VariableExpressionAst":
                 variable = subnodes[0]
                 self._scope.del_var(variable.attrib["VariablePath"].lower())
 
-        if node.tag in ["UnaryExpressionAst", "BinaryExpressionAst", "Arguments",
-                        "InvokeMemberExpressionAst", "MemberExpressionAst", "ConvertExpressionAst"]:
+        if node.tag in ("UnaryExpressionAst", "BinaryExpressionAst", "Arguments",
+                        "InvokeMemberExpressionAst", "MemberExpressionAst", "ConvertExpressionAst"):
             for subnode in node:
                 if subnode.tag == "VariableExpressionAst":
                     self._replace_var(node, subnode)
@@ -395,10 +392,10 @@ def opt_lift_switch_with_just_default(ast, parents):
       }
     }
     """
-    for node in ast.iter():
-        if node.tag == "SwitchStatementAst" and len(node) == 2:
+    for node in ast.iter("SwitchStatementAst"):
+        if len(node) == 2:
             if node[1].tag == "CommandExpressionAst" and node[1][0].tag in \
-                    ["ConstantExpressionAst", "StringConstantExpressionAst", "VariableExpressionAst"]:
+                    ("ConstantExpressionAst", "StringConstantExpressionAst", "VariableExpressionAst"):
                 if node[0].tag == "StatementBlockAst" and node[0][0].tag == "Statements":
                     replace_node(ast, node, list(node[0][0]), parents=parents)
                     return True

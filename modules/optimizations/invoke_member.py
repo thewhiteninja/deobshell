@@ -12,107 +12,104 @@ def opt_invoke_expression(ast, parents):
     ret = False
     p = pathlib.Path("tmp.ps1")
 
-    for node in ast.iter():
-        if node.tag == "CommandElements":
-            subnodes = list(node)
-            if len(subnodes) == 2:
-                if subnodes[0].tag == "StringConstantExpressionAst" and subnodes[0].attrib[
+    for node in ast.iter("CommandElements"):
+        subnodes = list(node)
+        if len(subnodes) == 2:
+            if subnodes[0].tag == "StringConstantExpressionAst" and subnodes[0].attrib[
                     "StringConstantType"] == "BareWord" and subnodes[0].text == "Invoke-Expression":
-                    if subnodes[1].tag == "StringConstantExpressionAst" and subnodes[1].attrib[
+                if subnodes[1].tag == "StringConstantExpressionAst" and subnodes[1].attrib[
                         "StringConstantType"] != "BareWord":
 
-                        script_content = subnodes[1].text
+                    script_content = subnodes[1].text
 
-                        with open(p, "w") as tmp:
-                            tmp.write(script_content)
+                    with open(p, "w") as tmp:
+                        tmp.write(script_content)
 
-                        if create_ast_file(p, None):
-                            if sub_ast := read_ast_file(p.with_suffix(".xml")):
-                                log_debug("Replace Invoke-Expression by expression AST")
+                    if create_ast_file(p, None):
+                        if sub_ast := read_ast_file(p.with_suffix(".xml")):
+                            log_debug("Replace Invoke-Expression by expression AST")
 
-                                sub_tree = sub_ast.getroot()
-                                if sub_tree.tag == "ScriptBlockAst":
-                                    sub_tree = sub_tree[0]
-                                replace_node(ast, subnodes[0], sub_tree, until="CommandAst", parents=parents)
+                            sub_tree = sub_ast.getroot()
+                            if sub_tree.tag == "ScriptBlockAst":
+                                sub_tree = sub_tree[0]
+                            replace_node(ast, subnodes[0], sub_tree, until="CommandAst", parents=parents)
 
-                                ret = True
-                                break
+                            ret = True
+                            break
 
     try:
         os.remove(p.with_suffix(".xml"))
         os.remove(p.with_suffix(".ps1"))
-    except:
+    except Exception:
         pass
 
     return ret
 
 
 def opt_invoke_replace_string(ast, parents):
-    for node in ast.iter():
-        if node.tag == "InvokeMemberExpressionAst":
-            subnodes = list(node)
+    for node in ast.iter("InvokeMemberExpressionAst"):
+        subnodes = list(node)
 
-            if len(subnodes) < 3:
-                continue
+        if len(subnodes) < 3:
+            continue
 
-            if subnodes[2].tag == 'StringConstantExpressionAst' and \
+        if subnodes[2].tag == 'StringConstantExpressionAst' and \
                 subnodes[2].attrib["StringConstantType"] == "BareWord" and \
                 subnodes[2].text.lower() == "replace":
-                if subnodes[1].tag == 'StringConstantExpressionAst' and \
+            if subnodes[1].tag == 'StringConstantExpressionAst' and \
                     subnodes[1].attrib["StringConstantType"] != "BareWord":
-                    arguments = subnodes[0]
-                    if arguments is not None:
-                        argument_values = []
+                arguments = subnodes[0]
+                if arguments is not None:
+                    argument_values = []
 
-                        for element in list(arguments):
-                            if element.tag == "StringConstantExpressionAst":
-                                argument_values.append(element.text)
+                    for element in list(arguments):
+                        if element.tag == "StringConstantExpressionAst":
+                            argument_values.append(element.text)
 
-                        if len(argument_values) != 2:
-                            continue
+                    if len(argument_values) != 2:
+                        continue
 
-                        formatted = subnodes[1].text.replace(argument_values[0], argument_values[1])
+                    formatted = subnodes[1].text.replace(argument_values[0], argument_values[1])
 
-                        log_debug("Apply replace method on '%s'" % formatted)
+                    log_debug("Apply replace method on '%s'" % formatted)
 
-                        new_element = Element("StringConstantExpressionAst",
-                                              {
-                                                  "StringConstantType": "SingleQuoted",
-                                                  "StaticType": "string",
-                                              })
-                        new_element.text = formatted
+                    new_element = Element("StringConstantExpressionAst",
+                                          {
+                                              "StringConstantType": "SingleQuoted",
+                                              "StaticType": "string",
+                                          })
+                    new_element.text = formatted
 
-                        replace_node(ast, node, new_element, parents=parents)
+                    replace_node(ast, node, new_element, parents=parents)
 
-                        return True
+                    return True
     return False
 
 
 def opt_invoke_split_string(ast, parents):
-    for node in ast.iter():
-        if node.tag == "InvokeMemberExpressionAst":
-            subnodes = list(node)
+    for node in ast.iter("InvokeMemberExpressionAst"):
+        subnodes = list(node)
 
-            if len(subnodes) < 3:
-                continue
+        if len(subnodes) < 3:
+            continue
 
-            if subnodes[2].tag == 'StringConstantExpressionAst' and \
+        if subnodes[2].tag == 'StringConstantExpressionAst' and \
                 subnodes[2].attrib["StringConstantType"] == "BareWord" and \
                 subnodes[2].text.lower() == "split":
-                if subnodes[1].tag == 'StringConstantExpressionAst' and \
+            if subnodes[1].tag == 'StringConstantExpressionAst' and \
                     subnodes[1].attrib["StringConstantType"] != "BareWord":
-                    argument = subnodes[0]
+                argument = subnodes[0]
+                if argument is not None:
+                    argument = argument.find("StringConstantExpressionAst")
                     if argument is not None:
-                        argument = argument.find("StringConstantExpressionAst")
-                        if argument is not None:
-                            splitted = subnodes[1].text.split(argument.text)
+                        splitted = subnodes[1].text.split(argument.text)
 
-                            new_array_ast = create_array_literal_values(splitted)
+                        new_array_ast = create_array_literal_values(splitted)
 
-                            log_debug("Apply split operation to %s" % splitted)
+                        log_debug("Apply split operation to %s" % splitted)
 
-                            replace_node(ast, node, new_array_ast, parents=parents)
-                            return True
+                        replace_node(ast, node, new_array_ast, parents=parents)
+                        return True
     return False
 
 
@@ -143,20 +140,18 @@ def try_reverse_variable_if_not_used(ast, variable, before_node, parents):
 
 
 def opt_invoke_reverse_array(ast, parents):
-    for node in ast.iter():
-        variable = None
-        if node.tag in ["InvokeMemberExpressionAst"]:
-            subnodes = list(node)
-            if subnodes[1].tag == "TypeExpressionAst" and subnodes[1].attrib["TypeName"].lower() == "array":
-                if subnodes[2].tag == "StringConstantExpressionAst" and \
+    for node in ast.iter("InvokeMemberExpressionAst"):
+        subnodes = list(node)
+        if subnodes[1].tag == "TypeExpressionAst" and subnodes[1].attrib["TypeName"].lower() == "array":
+            if subnodes[2].tag == "StringConstantExpressionAst" and \
                     subnodes[2].attrib["StringConstantType"] == "BareWord":
-                    argument = subnodes[0].find("VariableExpressionAst")
-                    if argument is not None:
-                        variable = argument.attrib["VariablePath"]
+                argument = subnodes[0].find("VariableExpressionAst")
+                if argument is not None:
+                    variable = argument.attrib["VariablePath"]
 
-                        if try_reverse_variable_if_not_used(ast, variable, node, parents):
-                            delete_node(ast, node, parents=parents)
+                    if try_reverse_variable_if_not_used(ast, variable, node, parents):
+                        delete_node(ast, node, parents=parents)
 
-                            return True
+                        return True
 
     return False

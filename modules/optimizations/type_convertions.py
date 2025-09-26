@@ -7,125 +7,121 @@ from modules.utils import replace_node, create_array_literal_values
 
 
 def opt_convert_type_to_type(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["ConvertExpressionAst"]:
-            type_name = node.find("TypeConstraintAst")
-            if type_name is not None:
-                type_name = type_name.attrib["TypeName"].lower()
+    for node in ast.iter("ConvertExpressionAst"):
+        type_name = node.find("TypeConstraintAst")
+        if type_name is not None:
+            type_name = type_name.attrib["TypeName"].lower()
 
-            if type_name in ["type"]:
-                cst_string_node = node.find("StringConstantExpressionAst")
-                if cst_string_node is not None:
-                    type_value = cst_string_node.text
+        if type_name == "type":
+            cst_string_node = node.find("StringConstantExpressionAst")
+            if cst_string_node is not None:
+                type_value = cst_string_node.text
 
-                    new_element = Element("StringConstantExpressionAst",
-                                          {
-                                              "StringConstantType": "BareWord",
-                                              "StaticType": "string",
-                                          })
+                new_element = Element("StringConstantExpressionAst",
+                                      {
+                                          "StringConstantType": "BareWord",
+                                          "StaticType": "string",
+                                      })
 
-                    new_element.text = "[" + type_value + "]"
+                new_element.text = "[" + type_value + "]"
 
-                    log_debug("Replace type string '%s' by type '%s'" % (type_value, new_element.text))
+                log_debug("Replace type string '%s' by type '%s'" % (type_value, new_element.text))
 
-                    replace_node(ast, node, new_element, parents=parents)
+                replace_node(ast, node, new_element, parents=parents)
 
-                    return True
+                return True
 
 
 def opt_convert_type_to_string(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["ConvertExpressionAst"]:
-            type_name = node.find("TypeConstraintAst")
-            if type_name is not None:
-                type_name = type_name.attrib["TypeName"].lower()
+    for node in ast.iter("ConvertExpressionAst"):
+        type_name = node.find("TypeConstraintAst")
+        if type_name is not None:
+            type_name = type_name.attrib["TypeName"].lower()
 
-            if type_name in ["string"]:
-                cst_string_node = node.find("VariableExpressionAst")
-                if cst_string_node is not None:
-                    var_value = cst_string_node.attrib["VariablePath"]
+        if type_name == "string":
+            cst_string_node = node.find("VariableExpressionAst")
+            if cst_string_node is not None:
+                var_value = cst_string_node.attrib["VariablePath"]
 
-                    if var_value.lower() in SPECIAL_VARS_VALUES and SPECIAL_VARS_VALUES[var_value.lower()] is not None:
-                        log_debug(
-                            "Use special variable value '%s' for $%s" % (
-                                SPECIAL_VARS_VALUES[var_value.lower()], var_value))
-                        var_value = SPECIAL_VARS_VALUES[var_value.lower()]
+                if var_value.lower() in SPECIAL_VARS_VALUES and SPECIAL_VARS_VALUES[var_value.lower()] is not None:
+                    log_debug(
+                        "Use special variable value '%s' for $%s" % (
+                            SPECIAL_VARS_VALUES[var_value.lower()], var_value))
+                    var_value = SPECIAL_VARS_VALUES[var_value.lower()]
 
-                    new_element = Element("StringConstantExpressionAst",
-                                          {
-                                              "StringConstantType": "DoubleQuoted",
-                                              "StaticType": "string",
-                                          })
+                new_element = Element("StringConstantExpressionAst",
+                                      {
+                                          "StringConstantType": "DoubleQuoted",
+                                          "StaticType": "string",
+                                      })
 
-                    new_element.text = var_value
+                new_element.text = var_value
 
-                    log_debug("Replace type of variable $%s to string" % (var_value))
+                log_debug("Replace type of variable $%s to string" % (var_value))
 
-                    replace_node(ast, node, new_element, parents=parents)
+                replace_node(ast, node, new_element, parents=parents)
 
-                    return True
+                return True
 
-                cst_string_node = node.find("StringConstantExpressionAst")
-                if cst_string_node is not None:
-                    log_debug("Remove unused cast to string for '%s'" % (cst_string_node.text))
+            cst_string_node = node.find("StringConstantExpressionAst")
+            if cst_string_node is not None:
+                log_debug("Remove unused cast to string for '%s'" % (cst_string_node.text))
 
-                    replace_node(ast, node, cst_string_node, parents=parents)
+                replace_node(ast, node, cst_string_node, parents=parents)
 
-                    return True
+                return True
 
 
 def opt_convert_type_to_array(ast, parents):
-    for node in ast.iter():
-        if node.tag in ["ConvertExpressionAst"]:
-            type_name = node.find("TypeConstraintAst")
-            if type_name is not None:
-                type_name = type_name.attrib["TypeName"].lower()
+    for node in ast.iter("ConvertExpressionAst"):
+        type_name = node.find("TypeConstraintAst")
+        if type_name is not None:
+            type_name = type_name.attrib["TypeName"].lower()
 
-            if type_name == "array":
-                cst_string_node = node.find("StringConstantExpressionAst")
-                if cst_string_node is not None:
-                    log_debug("Replace array of one string to string '%s'" % cst_string_node.text)
+        if type_name == "array":
+            cst_string_node = node.find("StringConstantExpressionAst")
+            if cst_string_node is not None:
+                log_debug("Replace array of one string to string '%s'" % cst_string_node.text)
 
-                    replace_node(ast, node, cst_string_node, parents=parents)
+                replace_node(ast, node, cst_string_node, parents=parents)
 
-            elif type_name == "char[]":
-                cst_string_node = node.find("StringConstantExpressionAst")
-                if cst_string_node is not None:
-                    arrayed = [c for c in cst_string_node.text]
+        elif type_name == "char[]":
+            cst_string_node = node.find("StringConstantExpressionAst")
+            if cst_string_node is not None:
+                arrayed = [c for c in cst_string_node.text]
 
-                    new_array_ast = create_array_literal_values(arrayed)
+                new_array_ast = create_array_literal_values(arrayed)
 
-                    log_debug("Replace (cast) string to array: '%s'" % arrayed)
+                log_debug("Replace (cast) string to array: '%s'" % arrayed)
 
-                    replace_node(ast, node, new_array_ast, parents=parents)
+                replace_node(ast, node, new_array_ast, parents=parents)
 
 
 def opt_convert_type_to_char(ast, parents):
     had_any = False
 
-    for node in ast.iter():
-        if node.tag in ["ConvertExpressionAst"]:
-            type_name = node.find("TypeConstraintAst")
-            if type_name is not None:
-                type_name = type_name.attrib["TypeName"].lower()
+    for node in ast.iter("ConvertExpressionAst"):
+        type_name = node.find("TypeConstraintAst")
+        if type_name is not None:
+            type_name = type_name.attrib["TypeName"].lower()
 
-            if type_name == "char":
-                cst_int_node = node.find("ConstantExpressionAst")
+        if type_name == "char":
+            cst_int_node = node.find("ConstantExpressionAst")
 
-                if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
-                    type_value = int(cst_int_node.text)
+            if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
+                type_value = int(cst_int_node.text)
 
-                    new_element = Element("StringConstantExpressionAst",
-                                          {
-                                              "StringConstantType": "SingleQuoted",
-                                              "StaticType": "string",
-                                          })
-                    new_element.text = chr(type_value)
+                new_element = Element("StringConstantExpressionAst",
+                                      {
+                                          "StringConstantType": "SingleQuoted",
+                                          "StaticType": "string",
+                                      })
+                new_element.text = chr(type_value)
 
-                    log_debug("Replace integer %d convertion to char '%s'" % (type_value, new_element.text))
+                log_debug("Replace integer %d convertion to char '%s'" % (type_value, new_element.text))
 
-                    replace_node(ast, node, new_element, parents=parents)
-                    had_any = True
+                replace_node(ast, node, new_element, parents=parents)
+                had_any = True
 
     return had_any
 
@@ -133,19 +129,18 @@ def opt_convert_type_to_char(ast, parents):
 def opt_convert_type_to_int(ast, parents):
     had_any = False
 
-    for node in ast.iter():
-        if node.tag in ["ConvertExpressionAst"]:
-            type_name = node.find("TypeConstraintAst")
-            if type_name is not None:
-                type_name = type_name.attrib["TypeName"].lower()
+    for node in ast.iter("ConvertExpressionAst"):
+        type_name = node.find("TypeConstraintAst")
+        if type_name is not None:
+            type_name = type_name.attrib["TypeName"].lower()
 
-            if type_name == "int":
-                cst_int_node = node.find("ConstantExpressionAst")
+        if type_name == "int":
+            cst_int_node = node.find("ConstantExpressionAst")
 
-                if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
-                    log_debug("Remove no-op integer conversion")
+            if cst_int_node is not None and cst_int_node.attrib["StaticType"] == "int":
+                log_debug("Remove no-op integer conversion")
 
-                    replace_node(ast, node, cst_int_node, parents=parents)
-                    had_any = True
+                replace_node(ast, node, cst_int_node, parents=parents)
+                had_any = True
 
     return had_any
