@@ -9,7 +9,8 @@ VAR_ATTRIB = {
     "ParameterAst": "Name",
 }
 
-def opt_long_variable_names(ast):
+
+def opt_long_variable_names(ast, parents):
     counter = 0
     var_mapping = {}
     result = False
@@ -34,7 +35,7 @@ def opt_long_variable_names(ast):
             new_name = var_mapping[name]
             if has_dollar:
                 new_name = f"${new_name}"
-            
+
             node.attrib[VAR_ATTRIB[node.tag]] = new_name
             result = True
 

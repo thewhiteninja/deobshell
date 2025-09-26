@@ -16,31 +16,24 @@ from modules.optimizations.simplifications import opt_convert_bogus_loops, opt_s
     opt_bareword_case, opt_constant_string_type, opt_prefixed_variable_case, opt_replace_constant_variable_by_value, \
     opt_simplify_single_array, opt_simplify_pipeline_single_command, opt_type_constraint_from_convert, \
     opt_command_element_as_bareword, opt_type_constraint_case, opt_special_variable_case, \
-    opt_lift_switch_with_just_default
+    opt_lift_switch_with_just_default, opt_remove_nested_statement_blocks
 from modules.optimizations.type_convertions import opt_convert_type_to_int, opt_convert_type_to_type, \
     opt_convert_type_to_char, opt_convert_type_to_array, opt_convert_type_to_string
 from modules.optimizations.unary_expressions import opt_unary_expression_join
+from modules.utils import parent_map
 
 
-def optimize_pass(ast, stats):
+def optimize_pass(ast, stats, parents):
     optimizations = [
-        # Remove nodes
-        opt_remove_empty_nodes,
-        opt_unused_variable,
+        # Simplify parenthesis expressions
         opt_simplify_paren_single_expression,
-        opt_simplify_pipeline_single_command,
-        opt_simplify_single_array,
-        opt_remove_uninitialised_variable_usage,
-        opt_remove_dead_switch_cases,
-        opt_remove_dead_loops,
-        opt_remove_dead_if_clauses,
         # Expressions
-        opt_unary_expression_join,
         opt_binary_expression_plus,
+        opt_binary_expression_numeric_operators,
         opt_binary_expression_format,
         opt_binary_expression_replace,
         opt_binary_expression_join,
-        opt_binary_expression_numeric_operators,
+        opt_unary_expression_join,
         # Invoke member
         opt_invoke_split_string,
         opt_invoke_replace_string,
@@ -54,6 +47,16 @@ def optimize_pass(ast, stats):
         opt_convert_type_to_array,
         # Complex operations
         opt_value_of_const_array,
+        # Remove nodes
+        opt_simplify_pipeline_single_command,
+        opt_simplify_single_array,
+        opt_remove_dead_switch_cases,
+        opt_remove_dead_loops,
+        opt_remove_dead_if_clauses,
+        opt_remove_empty_nodes,
+        # Get rid of variables
+        opt_unused_variable,
+        opt_remove_uninitialised_variable_usage,
         # Syntax simplification
         opt_long_variable_names,
         opt_prefixed_variable_case,
@@ -66,13 +69,14 @@ def optimize_pass(ast, stats):
         opt_alias,
         opt_convert_bogus_loops,
         opt_lift_switch_with_just_default,
+        opt_remove_nested_statement_blocks,
         # Last
         opt_replace_constant_variable_by_value,
     ]
 
     for opt in optimizations:
         did_opt = False
-        while opt(ast):
+        while opt(ast, parents):
             stats.steps += 1
             did_opt = True
         if did_opt:
@@ -90,7 +94,8 @@ class Optimizer:
         count_in = sum(1 for _ in ast.getroot().iter())
         log_debug(f"{count_in} nodes loaded")
 
-        while optimize_pass(ast, self.stats):
+        parents = parent_map(ast)
+        while optimize_pass(ast, self.stats, parents):
             pass
 
         log_info(f"{self.stats.steps} optimization steps executed")

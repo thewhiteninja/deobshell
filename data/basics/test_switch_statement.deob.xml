@@ -1,67 +1,66 @@
 <ScriptBlockAst>
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
         <CommandExpressionAst>
-          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
-          </CommandExpressionAst>
+          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2</StringConstantExpressionAst>
+        </CommandExpressionAst>
       </AssignmentStatementAst>
       <SwitchStatementAst Flags="None" Condition="$variable">
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1</StringConstantExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2</StringConstantExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3</StringConstantExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option</StringConstantExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
               <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </SwitchStatementAst>
-      <CommandAst>
+      <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option</StringConstantExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
   </NamedBlockAst>
 </ScriptBlockAst>

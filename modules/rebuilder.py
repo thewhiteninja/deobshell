@@ -61,12 +61,12 @@ class Rebuilder:
                 self._rebuild_internal(subnode)
 
         elif node.tag in ["Attributes"]:
-            if typename := node.find("TypeConstraintAst"):
-                self._rebuild_internal(typename)
-
-            if attribute := node.find("AttributeAst"):
+            if (attribute := node.find("AttributeAst")) is not None:
                 self._rebuild_internal(attribute)
                 self.write("\n")
+
+            if (typename := node.find("TypeConstraintAst")) is not None:
+                self._rebuild_internal(typename)
 
         elif node.tag in ["AttributeAst"]:
             subnodes = list(node)
@@ -343,7 +343,7 @@ class Rebuilder:
 
         elif node.tag in ["ArrayExpressionAst"]:
             statement_block = list(node)[0]
-            statements_node = list(statement_block)[0]
+            statements_node = list(statement_block)[0] if len(statement_block) > 0 else []
             statements = list(statements_node)
             if len(statements) > 0:
                 self._rebuild_internal(statements[0])

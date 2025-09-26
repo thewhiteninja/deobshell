@@ -1,27 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScriptBlockAst>
-  <Attributes />
-  <UsingStatements />
-  <NamedBlockAst>
-    <BlockKind />
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <ForStatementAst Condition="$i -lt 3">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
-          <Operator />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            <Redirections />
           </CommandExpressionAst>
         </AssignmentStatementAst>
         <PipelineAst>
           <PipelineElements>
             <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
-                <TokenKind />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -29,13 +22,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -45,11 +36,9 @@
           <PipelineElements>
             <CommandExpressionAst>
               <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
-                <Operator />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
               </BinaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -57,20 +46,16 @@
       <ForStatementAst Condition="">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
-          <Operator />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            <Redirections />
           </CommandExpressionAst>
         </AssignmentStatementAst>
         <PipelineAst>
           <PipelineElements>
             <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
-                <TokenKind />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -78,13 +63,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -93,11 +76,9 @@
                 <PipelineElements>
                   <CommandExpressionAst>
                     <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
-                      <Operator />
                       <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                       <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
                     </BinaryExpressionAst>
-                    <Redirections />
                   </CommandExpressionAst>
                 </PipelineElements>
               </PipelineAst>
@@ -113,35 +94,29 @@
       <ForStatementAst Condition="$i -lt 3">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
-          <Operator />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            <Redirections />
           </CommandExpressionAst>
         </AssignmentStatementAst>
         <StatementBlockAst>
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <ParenExpressionAst StaticType="System.Object">
                       <PipelineAst>
                         <PipelineElements>
                           <CommandExpressionAst>
                             <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
-                              <TokenKind />
                               <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                             </UnaryExpressionAst>
-                            <Redirections />
                           </CommandExpressionAst>
                         </PipelineElements>
                       </PipelineAst>
                     </ParenExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -151,11 +126,9 @@
           <PipelineElements>
             <CommandExpressionAst>
               <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
-                <Operator />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
               </BinaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -165,10 +138,8 @@
           <PipelineElements>
             <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
-                <TokenKind />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -176,13 +147,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -192,11 +161,9 @@
           <PipelineElements>
             <CommandExpressionAst>
               <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
-                <Operator />
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
               </BinaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -209,11 +176,9 @@
                 <PipelineElements>
                   <CommandExpressionAst>
                     <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
-                      <Operator />
                       <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                       <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
                     </BinaryExpressionAst>
-                    <Redirections />
                   </CommandExpressionAst>
                 </PipelineElements>
               </PipelineAst>
@@ -229,20 +194,16 @@
       <ForStatementAst Condition="$x -gt 4">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="x" StaticType="System.Object" />
-          <Operator />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            <Redirections />
           </CommandExpressionAst>
         </AssignmentStatementAst>
         <PipelineAst>
           <PipelineElements>
             <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
-                <TokenKind />
                 <VariableExpressionAst VariablePath="x" StaticType="System.Object" />
               </UnaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -250,13 +211,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="x" StaticType="System.Object" />
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -266,11 +225,9 @@
           <PipelineElements>
             <CommandExpressionAst>
               <BinaryExpressionAst Operator="Igt" StaticType="System.Object">
-                <Operator />
                 <VariableExpressionAst VariablePath="x" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
               </BinaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -278,20 +235,16 @@
       <ForStatementAst Condition="$y -lt 3">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
-          <Operator />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
-            <Redirections />
           </CommandExpressionAst>
         </AssignmentStatementAst>
         <PipelineAst>
           <PipelineElements>
             <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
-                <TokenKind />
                 <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
               </UnaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
@@ -299,13 +252,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
-                    <ExpandableStringExpressionAst StringConstantType="BareWord" StaticType="string">$y+1<StringConstantType /><NestedExpressions><VariableExpressionAst VariablePath="y" StaticType="System.Object" /></NestedExpressions></ExpandableStringExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
+                    <ExpandableStringExpressionAst StringConstantType="BareWord" StaticType="string">$y+1<NestedExpressions><VariableExpressionAst VariablePath="y" StaticType="System.Object" /></NestedExpressions></ExpandableStringExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -315,40 +266,33 @@
           <PipelineElements>
             <CommandExpressionAst>
               <BinaryExpressionAst Operator="Ilt" StaticType="System.Object">
-                <Operator />
                 <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
               </BinaryExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
       </ForStatementAst>
       <PipelineAst>
         <PipelineElements>
-          <CommandAst>
+          <CommandAst InvocationOperator="Unknown">
             <CommandElements>
-              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
               <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
             </CommandElements>
-            <InvocationOperator />
-            <Redirections />
           </CommandAst>
         </PipelineElements>
       </PipelineAst>
       <ForStatementAst Condition="">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
-          <Operator />
           <PipelineAst>
             <PipelineElements>
-              <CommandAst>
+              <CommandAst InvocationOperator="Unknown">
                 <CommandElements>
-                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Command<StringConstantType /></StringConstantExpressionAst>
-                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Process<StringConstantType /></StringConstantExpressionAst>
+                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Command</StringConstantExpressionAst>
+                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Process</StringConstantExpressionAst>
                 </CommandElements>
-                <InvocationOperator />
-                <Redirections />
               </CommandAst>
             </PipelineElements>
           </PipelineAst>
@@ -357,16 +301,14 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <MemberExpressionAst Static="False" StaticType="System.Object">
                       <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
-                      <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">CommandType<StringConstantType /></StringConstantExpressionAst>
+                      <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">CommandType</StringConstantExpressionAst>
                     </MemberExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>

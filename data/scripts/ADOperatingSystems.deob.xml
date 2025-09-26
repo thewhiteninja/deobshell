@@ -1,10 +1,9 @@
 <ScriptBlockAst>
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
-        <CommandAst>
+        <CommandAst InvocationOperator="Unknown">
               <CommandElements>
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-ADComputer</StringConstantExpressionAst>
                 <CommandParameterAst ParameterName="Filter" />
@@ -12,7 +11,7 @@
                 <CommandParameterAst ParameterName="Properties" />
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
               </CommandElements>
-              </CommandAst>
+            </CommandAst>
           </AssignmentStatementAst>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="operatingSystems" StaticType="System.Object" />
@@ -23,17 +22,17 @@
                 <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
               </MemberExpressionAst>
-              </CommandExpressionAst>
-            <CommandAst>
+            </CommandExpressionAst>
+            <CommandAst InvocationOperator="Unknown">
               <CommandElements>
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Sort-Object</StringConstantExpressionAst>
                 <CommandParameterAst ParameterName="Unique" />
               </CommandElements>
-              </CommandAst>
+            </CommandAst>
           </PipelineElements>
         </PipelineAst>
       </AssignmentStatementAst>
-      <ForEachStatementAst Variable="$operatingSystem" Condition="$operatingSystems">
+      <ForEachStatementAst Variable="$operatingSystem" Flags="None" Condition="$operatingSystems">
         <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
         <StatementBlockAst>
           <Statements>
@@ -46,35 +45,37 @@
                       <PipelineElements>
                         <CommandExpressionAst>
                           <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
-                          </CommandExpressionAst>
-                        <CommandAst>
+                        </CommandExpressionAst>
+                        <CommandAst InvocationOperator="Unknown">
                           <CommandElements>
                             <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Where-Object</StringConstantExpressionAst>
                             <ScriptBlockExpressionAst StaticType="scriptblock">
                               <ScriptBlockAst>
-                                <UsingStatements />
-                                <NamedBlockAst>
+                                <NamedBlockAst BlockKind="End">
                                   <Statements>
                                     <CommandExpressionAst>
-                                          <MemberExpressionAst Static="False" StaticType="System.Object">
+                                          <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
+                                            <MemberExpressionAst Static="False" StaticType="System.Object">
                                               <VariableExpressionAst VariablePath="_" StaticType="System.Object" />
                                               <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
                                             </MemberExpressionAst>
-                                            </CommandExpressionAst>
+                                            <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
+                                          </BinaryExpressionAst>
+                                        </CommandExpressionAst>
                                       </Statements>
                                 </NamedBlockAst>
                               </ScriptBlockAst>
                             </ScriptBlockExpressionAst>
                           </CommandElements>
-                          </CommandAst>
+                        </CommandAst>
                       </PipelineElements>
                     </PipelineAst>
                   </ParenExpressionAst>
                   <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Name</StringConstantExpressionAst>
                 </MemberExpressionAst>
-                </CommandExpressionAst>
+              </CommandExpressionAst>
             </AssignmentStatementAst>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
                     <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <ParenExpressionAst StaticType="System.Object">
@@ -93,15 +94,15 @@
                                 </BinaryExpressionAst>
                                 <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">.</StringConstantExpressionAst>
                             </BinaryExpressionAst>
-                            </CommandExpressionAst>
+                          </CommandExpressionAst>
                         </ParenExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
               <VariableExpressionAst VariablePath="operatingSystems" StaticType="System.Object" />
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </ForEachStatementAst>
     </Statements>
   </NamedBlockAst>

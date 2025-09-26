@@ -1,6 +1,5 @@
 <ScriptBlockAst>
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="a" StaticType="System.Object" />
@@ -12,7 +11,7 @@
               <ConstantExpressionAst StaticType="int">2</ConstantExpressionAst>
             </Elements>
           </ArrayLiteralAst>
-          </CommandExpressionAst>
+        </CommandExpressionAst>
       </AssignmentStatementAst>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
@@ -25,13 +24,13 @@
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                     <CommandExpressionAst>
                       <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-                      </CommandExpressionAst>
+                    </CommandExpressionAst>
                   </AssignmentStatementAst>
                   <CommandExpressionAst>
                         <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
                           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                         </UnaryExpressionAst>
-                        </CommandExpressionAst>
+                      </CommandExpressionAst>
                     <StatementBlockAst>
                     <Statements>
                       <CommandExpressionAst>
@@ -42,7 +41,7 @@
                               </IndexExpressionAst>
                               <ConstantExpressionAst StaticType="int">1</ConstantExpressionAst>
                             </BinaryExpressionAst>
-                            </CommandExpressionAst>
+                          </CommandExpressionAst>
                         </Statements>
                   </StatementBlockAst>
                   <CommandExpressionAst>
@@ -50,25 +49,25 @@
                           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                           <MemberExpressionAst Static="False" StaticType="System.Object">
                             <VariableExpressionAst VariablePath="a" StaticType="System.Object" />
-                            <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Length<StringConstantType /></StringConstantExpressionAst>
+                            <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Length</StringConstantExpressionAst>
                           </MemberExpressionAst>
                         </BinaryExpressionAst>
-                        </CommandExpressionAst>
+                      </CommandExpressionAst>
                     </ForStatementAst>
                 <CommandExpressionAst>
                       <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
-                      </CommandExpressionAst>
+                    </CommandExpressionAst>
                   </Statements>
             </StatementBlockAst>
           </SubExpressionAst>
-          </CommandExpressionAst>
+        </CommandExpressionAst>
       </AssignmentStatementAst>
-      <CommandAst>
+      <CommandAst InvocationOperator="Unknown">
             <CommandElements>
-              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
               <VariableExpressionAst VariablePath="foo" StaticType="System.Object" />
             </CommandElements>
-            </CommandAst>
+          </CommandAst>
         </Statements>
   </NamedBlockAst>
 </ScriptBlockAst>
