@@ -25,23 +25,15 @@ from modules.utils import parent_map
 
 def optimize_pass(ast, stats, parents):
     optimizations = [
-        # Remove nodes
-        opt_unused_variable,
+        # Simplify parenthesis expressions
         opt_simplify_paren_single_expression,
-        opt_simplify_pipeline_single_command,
-        opt_simplify_single_array,
-        opt_remove_uninitialised_variable_usage,
-        opt_remove_dead_switch_cases,
-        opt_remove_dead_loops,
-        opt_remove_dead_if_clauses,
-        opt_remove_empty_nodes,
         # Expressions
-        opt_unary_expression_join,
         opt_binary_expression_plus,
+        opt_binary_expression_numeric_operators,
         opt_binary_expression_format,
         opt_binary_expression_replace,
         opt_binary_expression_join,
-        opt_binary_expression_numeric_operators,
+        opt_unary_expression_join,
         # Invoke member
         opt_invoke_split_string,
         opt_invoke_replace_string,
@@ -55,6 +47,16 @@ def optimize_pass(ast, stats, parents):
         opt_convert_type_to_array,
         # Complex operations
         opt_value_of_const_array,
+        # Remove nodes
+        opt_simplify_pipeline_single_command,
+        opt_simplify_single_array,
+        opt_remove_dead_switch_cases,
+        opt_remove_dead_loops,
+        opt_remove_dead_if_clauses,
+        opt_remove_empty_nodes,
+        # Get rid of variables
+        opt_unused_variable,
+        opt_remove_uninitialised_variable_usage,
         # Syntax simplification
         opt_long_variable_names,
         opt_prefixed_variable_case,
