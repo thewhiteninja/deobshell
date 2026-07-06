@@ -77,7 +77,7 @@ def opt_binary_expression_numeric_operators(ast):
     for node in ast.iter():
         if node.tag == 'BinaryExpressionAst':
             operator = node.attrib['Operator']
-            if operator in ["Multiply", "Minus"]:
+            if operator in ["Multiply", "Minus", "Divide", "Rem", "Band", "Bor", "Bxor", "Shl", "Shr"]:
                 subnodes = list(node)
 
                 if subnodes[0].tag == "ConstantExpressionAst":
@@ -95,6 +95,26 @@ def opt_binary_expression_numeric_operators(ast):
                         new_element = create_constant_number(left * right)
                     elif operator == "Minus":
                         new_element = create_constant_number(left - right)
+                    elif operator == "Divide":
+                        if right == 0:
+                            continue
+                        new_element = create_constant_number(left / right)
+                    elif operator == "Rem":
+                        if right == 0:
+                            continue
+                        new_element = create_constant_number(left % right)
+                    elif operator == "Band":
+                        new_element = create_constant_number(int(left) & int(right))
+                    elif operator == "Bor":
+                        new_element = create_constant_number(int(left) | int(right))
+                    elif operator == "Bxor":
+                        new_element = create_constant_number(int(left) ^ int(right))
+                    elif operator == "Shl":
+                        new_element = create_constant_number(int(left) << int(right))
+                    elif operator == "Shr":
+                        new_element = create_constant_number(int(left) >> int(right))
+                    else:
+                        continue
                     replacements.append((node, new_element))
 
     if replacements:
