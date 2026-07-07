@@ -3,9 +3,9 @@ function Invoke-WinEnum{
    param
    (
       [Parameter](Mandatory=$False, Position=0)
-      $UserName, 
+[String]      $UserName, 
       [Parameter](Mandatory=$False, Position=1)
-      $keywords
+[string[]]      $keywords
    )
    function Get-UserInfo   {
       if ($UserName)

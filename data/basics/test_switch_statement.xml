@@ -1,66 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScriptBlockAst>
-  <Attributes />
-  <UsingStatements />
-  <NamedBlockAst>
-    <BlockKind />
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
-        <Operator />
         <CommandExpressionAst>
-          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
-          <Redirections />
+          <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2</StringConstantExpressionAst>
         </CommandExpressionAst>
       </AssignmentStatementAst>
       <SwitchStatementAst Flags="None" Condition="$variable">
-        <Flags />
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option1</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 1</StringConstantExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
           </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option2</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 2</StringConstantExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
           </Statements>
         </StatementBlockAst>
-        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3<StringConstantType /></StringConstantExpressionAst>
+        <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Option3</StringConstantExpressionAst>
         <StatementBlockAst>
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Selected Option 3</StringConstantExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -70,13 +58,11 @@
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option</StringConstantExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -86,25 +72,20 @@
           <PipelineElements>
             <CommandExpressionAst>
               <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
       </SwitchStatementAst>
       <SwitchStatementAst Flags="None" Condition="$variable">
-        <Flags />
-        <Clauses />
         <StatementBlockAst>
           <Statements>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output<StringConstantType /></StringConstantExpressionAst>
-                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Output</StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="DoubleQuoted" StaticType="string">Default Option</StringConstantExpressionAst>
                   </CommandElements>
-                  <InvocationOperator />
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -114,7 +95,6 @@
           <PipelineElements>
             <CommandExpressionAst>
               <VariableExpressionAst VariablePath="variable" StaticType="System.Object" />
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>

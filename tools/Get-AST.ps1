@@ -55,16 +55,14 @@ function PopulateNode($xmlWriter, $object)
         }
 
         $collection = $childObject -as [System.Management.Automation.Language.Ast[]]
-        if ($null -ne $collection)
+        if ($null -ne $collection -and ($collection | Where-Object { $_ -ne $null }))
         {
             $xmlWriter.WriteStartElement($child.Name)
 
-
-            for ($i = 0; $i -lt $collection.Length; $i++)
+            foreach ($item in $collection)
             {
-                AddChildNode $xmlWriter ($collection[$i])
+                AddChildNode $xmlWriter $item
             }
-
 
             $xmlWriter.WriteEndElement()
             continue
@@ -92,7 +90,9 @@ function AddChildNode($xmlWriter, $child)
 
         foreach ($property in $child.PSObject.Properties)
         {
-            if ($property.Name -in 'Name', 'ArgumentName', 'ParameterName', 'StaticType', 'StringConstantType', 'TypeName', 'VariablePath', 'Operator', 'Variable', 'Condition', 'Static', 'TokenKind', 'Flags')
+            if ($property.Name -in 'Name', 'ArgumentName', 'ParameterName', 'StaticType', 'StringConstantType', 'TypeName',
+                                   'VariablePath', 'Operator', 'Variable', 'Condition', 'Static', 'TokenKind', 'Flags',
+                                   'InvocationOperator', 'BlockKind')
             {
                 $xmlWriter.WriteAttributeString($property.Name, $property.Value);
             }

@@ -1,27 +1,26 @@
 <ScriptBlockAst>
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <ForStatementAst Condition="$i -lt 3">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            </CommandExpressionAst>
+          </CommandExpressionAst>
         </AssignmentStatementAst>
         <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixMinusMinus" StaticType="System.Object">
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
@@ -29,35 +28,35 @@
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
               </BinaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </ForStatementAst>
       <ForStatementAst Condition="">
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            </CommandExpressionAst>
+          </CommandExpressionAst>
         </AssignmentStatementAst>
         <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               <IfStatementAst>
               <CommandExpressionAst>
                     <BinaryExpressionAst Operator="Ieq" StaticType="System.Object">
                       <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                       <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
                     </BinaryExpressionAst>
-                    </CommandExpressionAst>
+                  </CommandExpressionAst>
                 <StatementBlockAst>
                 <Statements>
                   <BreakStatementAst />
@@ -72,22 +71,22 @@
           <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">0</ConstantExpressionAst>
-            </CommandExpressionAst>
+          </CommandExpressionAst>
         </AssignmentStatementAst>
         <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <ParenExpressionAst StaticType="System.Object">
                       <CommandExpressionAst>
                             <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
                               <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                             </UnaryExpressionAst>
-                            </CommandExpressionAst>
+                          </CommandExpressionAst>
                         </ParenExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
@@ -95,22 +94,22 @@
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
               </BinaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </ForStatementAst>
       <ForStatementAst Condition="$i -lt 4">
         <CommandExpressionAst>
               <UnaryExpressionAst TokenKind="PostfixPlusPlus" StaticType="System.Object">
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
               </UnaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           <StatementBlockAst>
           <Statements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
         </StatementBlockAst>
         <CommandExpressionAst>
@@ -118,7 +117,7 @@
                 <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                 <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
               </BinaryExpressionAst>
-              </CommandExpressionAst>
+            </CommandExpressionAst>
           </ForStatementAst>
       <ForStatementAst Condition="">
         <StatementBlockAst>
@@ -129,7 +128,7 @@
                       <VariableExpressionAst VariablePath="i" StaticType="System.Object" />
                       <ConstantExpressionAst StaticType="int">3</ConstantExpressionAst>
                     </BinaryExpressionAst>
-                    </CommandExpressionAst>
+                  </CommandExpressionAst>
                 <StatementBlockAst>
                 <Statements>
                   <BreakStatementAst />
@@ -143,32 +142,32 @@
           <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
           <CommandExpressionAst>
             <ConstantExpressionAst StaticType="int">4</ConstantExpressionAst>
-            </CommandExpressionAst>
+          </CommandExpressionAst>
         </AssignmentStatementAst>
-        <CommandAst>
+        <CommandAst InvocationOperator="Unknown">
             <CommandElements>
-              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+              <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
               <VariableExpressionAst VariablePath="y" StaticType="System.Object" />
             </CommandElements>
-            </CommandAst>
+          </CommandAst>
         <AssignmentStatementAst Operator="Equals">
           <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
-          <CommandAst>
+          <CommandAst InvocationOperator="Unknown">
                 <CommandElements>
-                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Command<StringConstantType /></StringConstantExpressionAst>
-                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Process<StringConstantType /></StringConstantExpressionAst>
+                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Command</StringConstantExpressionAst>
+                  <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-Process</StringConstantExpressionAst>
                 </CommandElements>
-                </CommandAst>
+              </CommandAst>
             </AssignmentStatementAst>
-        <CommandAst>
+        <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
-                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host<StringConstantType /></StringConstantExpressionAst>
+                    <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <MemberExpressionAst Static="False" StaticType="System.Object">
                       <VariableExpressionAst VariablePath="z" StaticType="System.Object" />
-                      <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">CommandType<StringConstantType /></StringConstantExpressionAst>
+                      <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">CommandType</StringConstantExpressionAst>
                     </MemberExpressionAst>
                   </CommandElements>
-                  </CommandAst>
+                </CommandAst>
               </Statements>
   </NamedBlockAst>
 </ScriptBlockAst>

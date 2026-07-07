@@ -5,7 +5,7 @@ foreach($operatingSystem in $operatingSystems)
 {
    $computers = ($adComputers | Where-Object    {
       {
-         $_.OperatingSystem;
+         $_.OperatingSystem -eq $operatingSystem;
       }
    }
 ).Name;

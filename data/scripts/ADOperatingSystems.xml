@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScriptBlockAst>
-  <Attributes />
-  <UsingStatements />
-  <NamedBlockAst>
+  <NamedBlockAst BlockKind="End">
     <Statements>
       <AssignmentStatementAst Operator="Equals">
         <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
         <PipelineAst>
           <PipelineElements>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
               <CommandElements>
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Get-ADComputer</StringConstantExpressionAst>
                 <CommandParameterAst ParameterName="Filter" />
@@ -16,7 +14,6 @@
                 <CommandParameterAst ParameterName="Properties" />
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
               </CommandElements>
-              <Redirections />
             </CommandAst>
           </PipelineElements>
         </PipelineAst>
@@ -30,19 +27,17 @@
                 <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">OperatingSystem</StringConstantExpressionAst>
               </MemberExpressionAst>
-              <Redirections />
             </CommandExpressionAst>
-            <CommandAst>
+            <CommandAst InvocationOperator="Unknown">
               <CommandElements>
                 <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Sort-Object</StringConstantExpressionAst>
                 <CommandParameterAst ParameterName="Unique" />
               </CommandElements>
-              <Redirections />
             </CommandAst>
           </PipelineElements>
         </PipelineAst>
       </AssignmentStatementAst>
-      <ForEachStatementAst Variable="$operatingSystem" Condition="$operatingSystems">
+      <ForEachStatementAst Variable="$operatingSystem" Flags="None" Condition="$operatingSystems">
         <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
         <StatementBlockAst>
           <Statements>
@@ -55,16 +50,13 @@
                       <PipelineElements>
                         <CommandExpressionAst>
                           <VariableExpressionAst VariablePath="adComputers" StaticType="System.Object" />
-                          <Redirections />
                         </CommandExpressionAst>
-                        <CommandAst>
+                        <CommandAst InvocationOperator="Unknown">
                           <CommandElements>
                             <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Where-Object</StringConstantExpressionAst>
                             <ScriptBlockExpressionAst StaticType="scriptblock">
                               <ScriptBlockAst>
-                                <Attributes />
-                                <UsingStatements />
-                                <NamedBlockAst>
+                                <NamedBlockAst BlockKind="End">
                                   <Statements>
                                     <PipelineAst>
                                       <PipelineElements>
@@ -76,7 +68,6 @@
                                             </MemberExpressionAst>
                                             <VariableExpressionAst VariablePath="operatingSystem" StaticType="System.Object" />
                                           </BinaryExpressionAst>
-                                          <Redirections />
                                         </CommandExpressionAst>
                                       </PipelineElements>
                                     </PipelineAst>
@@ -85,19 +76,17 @@
                               </ScriptBlockAst>
                             </ScriptBlockExpressionAst>
                           </CommandElements>
-                          <Redirections />
                         </CommandAst>
                       </PipelineElements>
                     </PipelineAst>
                   </ParenExpressionAst>
                   <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Name</StringConstantExpressionAst>
                 </MemberExpressionAst>
-                <Redirections />
               </CommandExpressionAst>
             </AssignmentStatementAst>
             <PipelineAst>
               <PipelineElements>
-                <CommandAst>
+                <CommandAst InvocationOperator="Unknown">
                   <CommandElements>
                     <StringConstantExpressionAst StringConstantType="BareWord" StaticType="string">Write-Host</StringConstantExpressionAst>
                     <ParenExpressionAst StaticType="System.Object">
@@ -121,13 +110,11 @@
                               </BinaryExpressionAst>
                               <StringConstantExpressionAst StringConstantType="SingleQuoted" StaticType="string">.</StringConstantExpressionAst>
                             </BinaryExpressionAst>
-                            <Redirections />
                           </CommandExpressionAst>
                         </PipelineElements>
                       </PipelineAst>
                     </ParenExpressionAst>
                   </CommandElements>
-                  <Redirections />
                 </CommandAst>
               </PipelineElements>
             </PipelineAst>
@@ -137,7 +124,6 @@
           <PipelineElements>
             <CommandExpressionAst>
               <VariableExpressionAst VariablePath="operatingSystems" StaticType="System.Object" />
-              <Redirections />
             </CommandExpressionAst>
           </PipelineElements>
         </PipelineAst>
