@@ -36,7 +36,7 @@ def create_ast_file(ps1_file, use_docker):
 
         cmd = docker_cmd + ["run", "-v", os.path.abspath(os.path.join("tools", "Get-AST.ps1")) + ":/Get-AST.ps1",
             "-v", os.path.abspath(ps1_file / "..") + ":/scriptdir",
-            "--net", "none", "--rm", "-it", "mcr.microsoft.com/powershell:lts-7.2-ubuntu-22.04",
+            "--net", "none", "--rm", "mcr.microsoft.com/powershell:lts-7.2-ubuntu-22.04",
             "pwsh", "-File", "/Get-AST.ps1", "-ps1", "/scriptdir/" + ps1_file.name]
     else:
         cmd = ["PowerShell", "-ExecutionPolicy", "Unrestricted", "-File",
